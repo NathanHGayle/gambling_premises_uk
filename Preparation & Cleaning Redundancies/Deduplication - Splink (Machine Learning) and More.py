@@ -5,42 +5,16 @@ from splink.duckdb.duckdb_linker import DuckDBLinker
 import splink.duckdb.duckdb_comparison_library as cl
 from splink import charts
 import splink
-print('Running Splink version:', splink.__version__)
 
+print('Running Splink version:', splink.__version__)
 print('Creating new file to include IDs in NONULLs file...')
-# Import dataset
+# Import dataset -- change method to connect to Git CSV in repository
 df = pd.read_csv('Insert Path - Key Stage Downloads - CSVs\\NONULLS_premises-licence-register.csv')
 
-
-# Transformations - includes creating a unique id
-df['Account Number'] = df['Account Number'].astype(int)
-columns = list(df.columns)
-columns = [sub.replace(' ','_') for sub in columns]
-df.columns = columns
-analyse_columns = columns[2:]
-result = df.apply(lambda x: ''.join(x.astype(str)), axis=1)
-result = result.replace(' ','_')
-result = result.reset_index()
-df = df.merge(result,how='left',left_on='index',right_on='index')
-df.rename(columns={0:"unique_id"},inplace=True)
-df.unique_id = df.unique_id.str.replace(' ','')
-
-df['Address_Line_1'] = df['Address_Line_1'].str.replace('Ladnrokes','Ladbrokes')
-df['Address_Line_1'] = df['Address_Line_1'].str.replace('Ladnrokes','Ladbrokes')
-df['Address_Line_1'] = df['Address_Line_1'].str.replace('284 â€“ 286 Northolt Road','284-286 Northolt Road')
-df[['Address_Line_1', 'Address_Line_2']] = df[['Address_Line_1', 'Address_Line_2']].astype(str).apply(lambda x: x.str.replace(',', ''))
-df[['Address_Line_1', 'Address_Line_2']] = df[['Address_Line_1', 'Address_Line_2']].astype(str).apply(lambda x: x.str.replace("/",'-'))
-df[['Address_Line_1', 'Address_Line_2']] = df[['Address_Line_1', 'Address_Line_2']].astype(str).apply(lambda x: x.str.replace("&",'and'))
-df[['Address_Line_1', 'Address_Line_2', 'City']] = df[['Address_Line_1', 'Address_Line_2', 'City']].astype(str).apply(lambda x: x.str.upper())
-
-df.to_csv('Insert Path - Key Stage Downloads - CSVs\\Added_ID_NONULLS_premises-licence-register.csv')
-print('Successful')
-
+df['unique_id'] = df['Flatten_ID']
 print('Dataframe columns:', list(df.columns))
-# Splink time
 
-# settings = {
-#     "link_type": "dedupe_only"}
+#Splink Time
 
 settings = {
     "link_type": "dedupe_only",
@@ -62,13 +36,26 @@ settings = {
         cl.exact_match("City"),
         cl.exact_match("Postcode"),
         cl.exact_match("Postcode_District"),
+        cl.exact_match("Full_Address"),
+        cl.exact_match("Adult_Gaming_Centre"),
+        cl.exact_match("Betting_Shop"),
+        cl.exact_match("Bingo"),
+        cl.exact_match("Casino"),
+        cl.exact_match("Casino_2005"),
+        cl.exact_match("Family_Entertainment_Centre"),
+        cl.exact_match("Other"),
+        cl.exact_match("Pool_Betting")
+
     ],
 }
 
 linker = DuckDBLinker(df, settings)
 
+analyse_columns = list(df.columns[2:])
+
+
 # EDA
-print('EDA STEP?: Do you want to save the profile chart in your evenironment, y/n?')
+print('EDA STEP?: Do you want to save the profile chart in your environment, y/n?')
 ans = input()
 if ans == 'y':
     profile_cols = linker.profile_columns(analyse_columns, top_n=10, bottom_n=5)
@@ -124,8 +111,7 @@ records_to_plot = df_e.head().to_dict(orient= "read")
 waterfall = charts.waterfall_chart(records_to_plot,linker._settings_obj_,filter_nulls=False)
 charts.save_offline_chart(waterfall, filename="waterfall_chart.html", overwrite=True)
 
-
-precision_recalls = linker.precision_recall_chart_from_labels_column("unique_id")
+precision_recalls = linker.precision_recall_chart_from_labels_column("Flatten_ID")
 charts.save_offline_chart(precision_recalls, filename="precision_recalls.html", overwrite=True)
 
 print('Successful')
