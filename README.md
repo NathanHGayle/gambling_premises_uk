@@ -8,7 +8,23 @@ Null Replacement
   2. Manual replacements based on eyeballing through records & Google searching 
   3. Creating category for null premises activity
 
+Reshaping
+  1. String refinements and case handling
+  2. Deduplication through pivots and sophisticated group bys
+
 Deduplication
-  1. ML dedupe model to identify possible duplicates
-  2. Creating groupp field for matches and establishing official premises addresses
-  3. API for activie/in_active
+  1. Running ML dedupe models to identify less obvious duplicatations
+
+Engineered Features
+  1. Calling an API to categorise fields based on live data
+  2. Calling an API to add new numerical features
+  3. Aggregating premises activity options
+  4. Social s...
+
+Analysis
+  1. Building a ...
+  2. Uploading dataset to ... (consider this... could be cool to keep)
+
+  DS
+  1. 
+  
