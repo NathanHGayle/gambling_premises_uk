@@ -17,14 +17,10 @@ Deduplication
 
 Engineered Features
   1. Calling an API to categorise fields based on live data
-  2. Calling an API to add new numerical features
-  3. Aggregating premises activity options
-  4. Social s...
+  2. Added numerical metrics from various sources 
 
 Analysis
   1. Building a ...
-  2. Uploading dataset to ... (consider this... could be cool to keep)
-
-  DS
-  1. 
+  2. Uploading dataset to OR writing blog on...
+  
   
