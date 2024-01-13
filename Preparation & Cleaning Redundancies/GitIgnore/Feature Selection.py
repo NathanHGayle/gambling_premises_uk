@@ -54,8 +54,4 @@ final_df[['business_status_google_api_','formatted_address_google_api_','place_i
 
 #final_df.to_csv('C:\\Users\\natha\\OneDrive\\Desktop\\Kaggle\\operation_vs_permclose_premises-licence-register.csv')
 
-# I want to see the social demographic breakdown
 
-# I want to see the 'Average Walking distance - between each location within a District (Mode of transportation = (walking minutes)
-
-# Distance travel time by Group of City
