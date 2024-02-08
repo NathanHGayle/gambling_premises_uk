@@ -37,7 +37,8 @@ import numpy as np
 # OLD CODE:
 
 # Load the CSV file
-df = pd.read_csv("C:\\Users\\natha\\PycharmProjects\\gambling_premises_in_the_uk\\Preparation & Cleaning Redundancies\\Splink - ML for Deduplication\\Duplication CSV\\Match_Weight_DataFrame.csv")
+df = pd.read_csv(
+    "/Preparation & Cleaning Redundancies/Splink - ML for Deduplication/Duplication CSV/Match_Weight_DataFrame.csv")
 
 distinct_count_one = df['unique_id_l'].nunique()
 
@@ -123,7 +124,8 @@ df_g['Custom'] = df_g.apply(lambda x: 'merge and remove' if x[['unique_id_r_1', 
  ## HOW DO WE
 
 
-prem_dataset = pd.read_csv('C:\\Users\\natha\\PycharmProjects\\gambling_premises_in_the_uk\\Preparation & Cleaning Redundancies\Key Stage Downloads - CSVs\\Added_ID_NONULLS_premises-licence-register.csv')
+prem_dataset = pd.read_csv(
+    '/Preparation & Cleaning Redundancies/Key Stage Downloads - CSVs/Added_ID_NONULLS_premises-licence-register.csv')
 
 print(prem_dataset.columns)
 
