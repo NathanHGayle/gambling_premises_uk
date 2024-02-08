@@ -1,0 +1,468 @@
+{
+    "link_type": "dedupe_only",
+    "blocking_rules_to_generate_predictions": [
+        "l.Postcode = r.Postcode",
+        "l.City = r.City"
+    ],
+    "comparisons": [
+        {
+            "output_column_name": "Account_Number",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Account_Number_l\" IS NULL OR \"Account_Number_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Account_Number_l\" = \"Account_Number_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.6808731808731809,
+                    "u_probability": 0.15437714762798124
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.6382536382536382,
+                    "u_probability": 0.8456228523720187
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Account_Name",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Account_Name_l\" IS NULL OR \"Account_Name_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Account_Name_l\" = \"Account_Name_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.36174636174636177,
+                    "u_probability": 0.15437714762798124
+                },
+                {
+                    "sql_condition": "levenshtein(\"Account_Name_l\", \"Account_Name_r\") <= 1",
+                    "label_for_charts": "Levenshtein <= 1",
+                    "u_probability": 2.0897002607700078e-06
+                },
+                {
+                    "sql_condition": "levenshtein(\"Account_Name_l\", \"Account_Name_r\") <= 2",
+                    "label_for_charts": "Levenshtein <= 2",
+                    "m_probability": 0.0005197505197505198,
+                    "u_probability": 1.2292354475117692e-06
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.6377338877338877,
+                    "u_probability": 0.8456195334363105
+                }
+            ],
+            "comparison_description": "Exact match vs. Account_Name within levenshtein thresholds 1, 2 vs. anything else"
+        },
+        {
+            "output_column_name": "Premises_Activity",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Premises_Activity_l\" IS NULL OR \"Premises_Activity_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Premises_Activity_l\" = \"Premises_Activity_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.7912837825728609,
+                    "u_probability": 0.5691642354438241
+                },
+                {
+                    "sql_condition": "levenshtein(\"Premises_Activity_l\", \"Premises_Activity_r\") <= 1",
+                    "label_for_charts": "Levenshtein <= 1"
+                },
+                {
+                    "sql_condition": "levenshtein(\"Premises_Activity_l\", \"Premises_Activity_r\") <= 2",
+                    "label_for_charts": "Levenshtein <= 2"
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.20871621742713908,
+                    "u_probability": 0.43083576455617595
+                }
+            ],
+            "comparison_description": "Exact match vs. Premises_Activity within levenshtein thresholds 1, 2 vs. anything else"
+        },
+        {
+            "output_column_name": "Local_Authority",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Local_Authority_l\" IS NULL OR \"Local_Authority_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Local_Authority_l\" = \"Local_Authority_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.6124924113257777,
+                    "u_probability": 0.005053239416467182
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.38750758867422225,
+                    "u_probability": 0.9949467605835328
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Address_Line_1",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Address_Line_1_l\" IS NULL OR \"Address_Line_1_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Address_Line_1_l\" = \"Address_Line_1_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.5563420681475458,
+                    "u_probability": 0.11927923041993879
+                },
+                {
+                    "sql_condition": "levenshtein(\"Address_Line_1_l\", \"Address_Line_1_r\") <= 1",
+                    "label_for_charts": "Levenshtein <= 1",
+                    "m_probability": 0.0010912747194879236,
+                    "u_probability": 6.269100782310024e-06
+                },
+                {
+                    "sql_condition": "levenshtein(\"Address_Line_1_l\", \"Address_Line_1_r\") <= 2",
+                    "label_for_charts": "Levenshtein <= 2",
+                    "m_probability": 0.0008011981462869814,
+                    "u_probability": 4.516211034158241e-05
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.4417654589866793,
+                    "u_probability": 0.8806693383689373
+                }
+            ],
+            "comparison_description": "Exact match vs. Address_Line_1 within levenshtein thresholds 1, 2 vs. anything else"
+        },
+        {
+            "output_column_name": "Address_Line_2",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Address_Line_2_l\" IS NULL OR \"Address_Line_2_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Address_Line_2_l\" = \"Address_Line_2_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.031833209044808075,
+                    "u_probability": 2.1413281495655022e-05
+                },
+                {
+                    "sql_condition": "levenshtein(\"Address_Line_2_l\", \"Address_Line_2_r\") <= 1",
+                    "label_for_charts": "Levenshtein <= 1",
+                    "m_probability": 0.07554301952389778,
+                    "u_probability": 0.000275422494369487
+                },
+                {
+                    "sql_condition": "levenshtein(\"Address_Line_2_l\", \"Address_Line_2_r\") <= 2",
+                    "label_for_charts": "Levenshtein <= 2",
+                    "m_probability": 0.0638400038828466,
+                    "u_probability": 0.001357051349344043
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.8287837675484475,
+                    "u_probability": 0.9983461128747908
+                }
+            ],
+            "comparison_description": "Exact match vs. Address_Line_2 within levenshtein thresholds 1, 2 vs. anything else"
+        },
+        {
+            "output_column_name": "City",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"City_l\" IS NULL OR \"City_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"City_l\" = \"City_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.9579002079002079,
+                    "u_probability": 0.015403868993986334
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.0420997920997921,
+                    "u_probability": 0.9845961310060136
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Postcode",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Postcode_l\" IS NULL OR \"Postcode_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Postcode_l\" = \"Postcode_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.005815910051859969,
+                    "u_probability": 4.730098002025288e-05
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.99418408994814,
+                    "u_probability": 0.9999526990199797
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Postcode_District",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Postcode_District_l\" IS NULL OR \"Postcode_District_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Postcode_District_l\" = \"Postcode_District_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.5235354520273711,
+                    "u_probability": 0.0008533352476626703
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.952929095945258,
+                    "u_probability": 0.9991466647523374
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Full_Address",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Full_Address_l\" IS NULL OR \"Full_Address_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Full_Address_l\" = \"Full_Address_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.002598752598752599,
+                    "u_probability": 1.2292354475117694e-07
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.9987006237006237,
+                    "u_probability": 0.9999998770764552
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Adult_Gaming_Centre",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Adult_Gaming_Centre_l\" IS NULL OR \"Adult_Gaming_Centre_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Adult_Gaming_Centre_l\" = \"Adult_Gaming_Centre_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.8280675649752957,
+                    "u_probability": 0.7347989179777897
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.17193243502470437,
+                    "u_probability": 0.2652010820222103
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Betting_Shop",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Betting_Shop_l\" IS NULL OR \"Betting_Shop_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Betting_Shop_l\" = \"Betting_Shop_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.8826084346895209,
+                    "u_probability": 0.6122419804064787
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.1173915653104791,
+                    "u_probability": 0.38775801959352135
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Bingo",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Bingo_l\" IS NULL OR \"Bingo_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Bingo_l\" = \"Bingo_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.93569072538388,
+                    "u_probability": 0.8784944029222368
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.06430927461611996,
+                    "u_probability": 0.12150559707776315
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Casino",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Casino_l\" IS NULL OR \"Casino_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Casino_l\" = \"Casino_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.9908655356443757,
+                    "u_probability": 0.9636486314061298
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.00913446435562426,
+                    "u_probability": 0.0363513685938702
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Casino_2005",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Casino_2005_l\" IS NULL OR \"Casino_2005_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Casino_2005_l\" = \"Casino_2005_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.999471620533585,
+                    "u_probability": 0.9984489261276207
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.0005283794664150004,
+                    "u_probability": 0.0015510738723793008
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Family_Entertainment_Centre",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Family_Entertainment_Centre_l\" IS NULL OR \"Family_Entertainment_Centre_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Family_Entertainment_Centre_l\" = \"Family_Entertainment_Centre_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.9505274883168816,
+                    "u_probability": 0.9581124991364621
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.049472511683118385,
+                    "u_probability": 0.0418875008635379
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Other",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Other_l\" IS NULL OR \"Other_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Other_l\" = \"Other_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 0.9958732040152624,
+                    "u_probability": 0.9856898555377918
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.004126795984737636,
+                    "u_probability": 0.014310144462208263
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        },
+        {
+            "output_column_name": "Pool_Betting",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"Pool_Betting_l\" IS NULL OR \"Pool_Betting_r\" IS NULL",
+                    "label_for_charts": "Null",
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"Pool_Betting_l\" = \"Pool_Betting_r\"",
+                    "label_for_charts": "Exact match",
+                    "m_probability": 1.0,
+                    "u_probability": 0.9993349590381871
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "u_probability": 0.0006650409618128174
+                }
+            ],
+            "comparison_description": "Exact match vs. anything else"
+        }
+    ],
+    "linker_uid": "Ultl649w",
+    "sql_dialect": "duckdb",
+    "probability_two_random_records_match": 0.0001
+}
