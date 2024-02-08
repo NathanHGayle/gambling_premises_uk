@@ -5,7 +5,7 @@ import yaml
 import re
 
 def find_from_config(key, name):
-    with open('config.yaml', 'r') as file:
+    with open('0.config.yaml', 'r') as file:
         config = yaml.safe_load(file)
         return config[key][name]
 
