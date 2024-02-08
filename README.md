@@ -1,5 +1,7 @@
 # Gambling Premises In The UK
-Analysing the correlations between the UK gambling premises, national socio-economic class and deprivation by Constituency. This code powers the Power BI dashboard and the objective is for this to be a tool for communities to use in communication with their local councils with regards to the existence/opening of gambling premises.
+Analysing the correlations between the UK gambling premises, National Socio-Economic Class and Deprivation by Constituency. 
+This code powers a publicly available Power BI dashboard serving as a tool for communities to use in communication with
+their local councils.
 
 # Steps
 
