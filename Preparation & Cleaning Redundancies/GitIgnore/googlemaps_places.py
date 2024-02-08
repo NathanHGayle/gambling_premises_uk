@@ -20,7 +20,7 @@ from googlemaps import convert
 
 import googlemaps as g_m
 
-gmaps = g_m.Client(key='AIzaSyC-KFEu3EBaBAwNHLNGQRxiBwbdlQIFw0c')
+gmaps = g_m.Client(key='insert_here')
 
 PLACES_FIND_FIELDS_BASIC = {"business_status",
         "formatted_address",
