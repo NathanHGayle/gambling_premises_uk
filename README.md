@@ -1,7 +1,7 @@
 # Gambling Premises In The UK
 Analysing the correlations between the UK gambling premises, National Socio-Economic Class and Deprivation by Constituency. 
 This code powers a publicly available Power BI dashboard serving as a tool for communities to use in communication with
-their local councils.
+their local councils available here: [![UK Gambling Premises, NSEC, and Deprivation Dashboard]](https://app.powerbi.com/view?r=eyJrIjoiY2ZiZTU2MTUtMjk0OS00ZDJiLWEwMGItNzZiYzg3YTYzMjI5IiwidCI6IjgyMmRkYmEwLWFkNjAtNDE2Zi1iNDRlLTEwMzdlNzRkNTI5OSJ9)
 
 # Steps
 
