@@ -1,26 +1,24 @@
 # Gambling Premises In The UK
-Utilising publicly available data to see if there is a correlation between the socio-economic status of an area within the UK and the presence of gambling premises. One of the outputs should be a BI dashboard tool for communities to use in communication with their local authorities regarding the existence/opening of gambling premises. The second output should be a convenient dataset available on Kaggle to use for Data Science projects that can be categorised within a social awareness collection if appropriate.
+Analysing the correlations between the UK gambling premises, national socio-economic class and deprivation by Constituency. This code powers the Power BI dashboard and the objective is for this to be a tool for communities to use in communication with their local councils with regards to the existence/opening of gambling premises.
 
 # Steps
 
 Null Replacement
-  1. Webscraping data to replace nulls
+  1. Webscraping data to replace nulls in Local Councils, and Postcodes.
   2. Manual replacements based on eyeballing through records & Google searching 
-  3. Creating category for null premises activity
+  3. Creating a default category for null premises activity
 
 Reshaping
   1. String refinements and case handling
-  2. Deduplication through pivots and sophisticated group bys
+  2. Deduplication through transformation techniques
+  3. Running ML dedupe model to identify less obvious duplicatations
 
-Deduplication
-  1. Running ML dedupe models to identify less obvious duplicatations
-
-Engineered Features
-  1. Calling an API to categorise fields based on live data
-  2. Added numerical metrics from various sources 
+API calls
+  1. Calling an API to categorise fields based on locational data
+  2. Adding numerical metrics from reliable sources for correlation analysis
 
 Analysis
-  1. Building a ...
-  2. Uploading dataset to OR writing blog on...
+  1. Correlation method selected to handle anomalies 
+  2. Dashboard visualises insights most useful for bringing awareness to trends and rankings.  
   
   
