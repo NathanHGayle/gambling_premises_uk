@@ -7,7 +7,7 @@ their local councils available here:
 # Steps
 
 NaN Replacement
-  1. Webscraping Locla Council information to replace NaNs in ``` `python
+  1. Webscraping Locla Council information to replace NaNs in ```python
      df['Local Authority'] ```
   3. Manually finding and replacing NaNs in the ``` `python
      df['Postcode'] ```.  
