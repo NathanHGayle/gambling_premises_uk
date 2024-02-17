@@ -6,22 +6,22 @@ their local councils available here:
 
 # Steps
 
-Null Replacement
-  1. Webscraping data to replace nulls in Local Councils, and Postcodes.
-  2. Manual replacements based on eyeballing through records & Google searching 
-  3. Creating a default category for null premises activity
+NaN Replacement
+  1. Webscraping Locla Council information to replace NaNs in ``` `python` df['Local Authority'] ```.
+  2. Manually finding and replacing NaNs in the ``` `python` df['Postcode'] ```.  
+  3. Creating an 'Other' category for NaNs in ``` `python` df['Premises Activity'] ```
 
 Reshaping
   1. String refinements and case handling
   2. Deduplication through transformation techniques
-  3. Running ML dedupe model to identify less obvious duplicatations
+  3. Running Splink to identify less obvious duplicatations -- file not included in repository yet.
 
 API calls
-  1. Calling an API to categorise fields based on locational data
-  2. Adding numerical metrics from reliable sources for correlation analysis
+  1. Calling Google Maps API to surface the Business Status of Gambling Premises, e.g 'OPERATIONAL', 'PERMINANTLY CLOSED' etc. 
+  2. Adding numerical metrics for Indicies of Deprivation 2019 and National Soci-Economic Class for correlation analysis.
 
 Analysis
-  1. Correlation method selected to handle anomalies 
-  2. Dashboard visualises insights most useful for bringing awareness to trends and rankings.  
+  1. The Spearman correlation method was selected to handle anomalies and thus better represent the raw scatter plot visualisation in the Power BI dashboard.
+  2. The Power BI dashboard product aims to bring awareness to these correlation trends and increase visibility of gamling premises across constituencies.  
   
   
