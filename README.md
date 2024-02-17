@@ -7,7 +7,7 @@ their local councils available here:
 # Steps
 
 NaN Replacement
-  1. Webscraping Locla Council information to replace NaNs in ```df['Local Authority']```
+  1. Webscraping Local Council information to replace NaNs in ```df['Local Authority']```
   3. Manually finding and replacing NaNs in the ```df['Postcode'] ```
   5. Creating an 'Other' category for NaNs in ```df['Premises Activity'] ```
 
@@ -21,7 +21,7 @@ API calls
   2. Adding numerical metrics for Indicies of Deprivation 2019 and National Soci-Economic Class for correlation analysis.
 
 Analysis
-  1. The Spearman correlation method was selected to handle anomalies and thus better represent the raw scatter plot visualisation in the Power BI dashboard.
-  2. The Power BI dashboard product aims to bring awareness to these correlation trends and increase visibility of gamling premises across constituencies.  
+  1. The Spearman correlation method was selected to handle anomalies and thus better represent the raw scatter plot visualisations in the Power BI dashboard.
+  2. The Power BI dashboard product aims to bring awareness to these correlations and show you all the gamling premises locations within your constituency. 
   
   
