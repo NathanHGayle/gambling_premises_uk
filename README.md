@@ -7,7 +7,7 @@ their local councils available here:
 
 To install the necessary packages, you can use `pip`. Run the following command in your terminal:
 
-```bash pip install -r requirements.txt```
+```pip install -r requirements.txt```
 
 NaN Replacement
   1. Webscraping Local Council information to replace NaNs in ```df['Local Authority']```
