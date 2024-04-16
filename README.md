@@ -4,7 +4,10 @@ This code powers a publicly available Power BI dashboard serving as a tool for c
 their local councils available here:
 [UK Gambling Premises, NSEC, and Deprivation Dashboard](https://app.powerbi.com/view?r=eyJrIjoiY2ZiZTU2MTUtMjk0OS00ZDJiLWEwMGItNzZiYzg3YTYzMjI5IiwidCI6IjgyMmRkYmEwLWFkNjAtNDE2Zi1iNDRlLTEwMzdlNzRkNTI5OSJ9)
 
-# Steps
+
+To install the necessary packages, you can use `pip`. Run the following command in your terminal:
+
+```bash pip install -r requirements.txt```
 
 NaN Replacement
   1. Webscraping Local Council information to replace NaNs in ```df['Local Authority']```
