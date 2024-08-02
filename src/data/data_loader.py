@@ -1,12 +1,11 @@
-import googlemaps_places as gp
 import pandas as pd
-from project_functions import df_to_csv
-from project_functions import find_from_config
-from project_functions import url_to_dataframe
-from project_functions import left_join
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+from src.utils import googlemaps_places as gp
+from src.data.data_cleaning import url_to_dataframe
+from src.data.data_cleaning import left_join
 
 
-# functions
 def call_google_api(df_string):
     business_status_str = gp.find_place(client=gp.gmaps,
                                         input=f'{df_string}',
@@ -60,18 +59,16 @@ def clean_and_format_df(final_df):
     return final_df
 
 
-def main():
-    df = url_to_dataframe(find_from_config('path', 'distinct_ids'))
-    # df['google_api_result'] = df['Full_Address'].apply(lambda x: call_google_api(x))
-    # df_to_csv(df, find_from_config('output_datasets','google_api_results'))
-    final_df = parse_api_result(find_from_config('output_datasets', 'google_api_results'), 'google_api_results')
-    columns_to_drop = ['google_api_result_dict', 'index_google_api_', 'Unnamed: 0', 'index']
-    final_df = clean_and_format_df(final_df)
-    df_to_csv(final_df, find_from_config('path', 'untested_post_google_api'))
-    print('successful')
+def extract_postcodes(extract_from):
+    uk_pattern = re.compile(r'\b[A-Z]{1,2}\d{1,2}[A-Z]?(\s*\d[A-Z0-9]{0,2})?\b')
+    postcodes = [uk_pattern.search(address).group() if uk_pattern.search(address) else None for address in extract_from]
+    return postcodes
 
 
-if __name__ == "__main__":
-    main()
-else:
-    pass
+def split_by_delimiter(df_col, by, stop=0):
+    return df_col.str.split(by).str[stop]
+
+
+def distinct_values(df_col):
+    list_unique_values_ = df_col.unique()
+    return len(list_unique_values_)
