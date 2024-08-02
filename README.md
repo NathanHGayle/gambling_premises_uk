@@ -9,6 +9,13 @@ To install the necessary packages, you can use `pip`. Run the following command 
 
 ```pip install -r requirements.txt```
 
+Source files:
+  * premises-licence-register.csv: https://www.gamblingcommission.gov.uk/public-register/premises/download
+  * postcodes.csv: https://www.doogal.co.uk/ElectoralConstituencies
+  * ns_sec_2021.csv: https://commonslibrary.parliament.uk/find-the-socio-economic-status-of-people-living-in-england-and-wales-by-constituency/
+  * constituencies_deprivation_dashboard.csv: https://commonslibrary.parliament.uk/constituency-data-indices-of-deprivation/
+
+
 NaN Replacement
   1. Webscraping Local Council information to replace NaNs in ```df['Local Authority']```
   3. Manually finding and replacing NaNs in the ```df['Postcode'] ```
