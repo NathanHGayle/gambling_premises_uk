@@ -1,6 +1,8 @@
+.idea/
 /src/
 !/src/__init__.py
 !/src/visualisation/__init__.py
 !/src/__init__.py
 !/src/data/__init__.py
 !/src/__init__.py
+.venv/
