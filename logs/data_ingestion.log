@@ -1,0 +1,25 @@
+[2024-12-19 10:04:11,359] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-19 10:04:11,360] INFO - ----------- Downloading uk-gam-datasets folder from KaggleHub ---------
+[2024-12-19 10:04:11,829] INFO - ----------- Uploading uk-gam-datasets folder to Googl Cloud Storage -------
+[2024-12-19 10:04:14,848] WARNING - Compute Engine Metadata server unavailable on attempt 1 of 3. Reason: timed out
+[2024-12-19 10:04:18,856] WARNING - Compute Engine Metadata server unavailable on attempt 2 of 3. Reason: timed out
+[2024-12-19 10:04:23,740] WARNING - Compute Engine Metadata server unavailable on attempt 3 of 3. Reason: timed out
+[2024-12-19 10:04:23,751] WARNING - Authentication failed using Compute Engine authentication due to unavailable metadata server.
+[2024-12-19 11:00:40,909] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-19 11:00:40,910] INFO - ----------- Downloading uk-gam-datasets folder from KaggleHub ---------
+[2024-12-19 11:00:41,479] INFO - ----------- Uploading uk-gam-datasets folder to Googl Cloud Storage -------
+[2024-12-19 11:00:44,493] WARNING - Compute Engine Metadata server unavailable on attempt 1 of 3. Reason: timed out
+[2024-12-19 11:00:48,605] WARNING - Compute Engine Metadata server unavailable on attempt 2 of 3. Reason: timed out
+[2024-12-19 11:00:53,795] WARNING - Compute Engine Metadata server unavailable on attempt 3 of 3. Reason: timed out
+[2024-12-19 11:00:53,795] WARNING - Authentication failed using Compute Engine authentication due to unavailable metadata server.
+[2024-12-19 11:32:16,038] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-19 11:32:16,038] INFO - ----------- Downloading uk-gam-datasets folder from KaggleHub ---------
+[2024-12-19 11:32:16,532] INFO - ----------- Uploading uk-gam-datasets folder to Google Cloud Storage -------
+[2024-12-19 11:34:38,663] WARNING - No project ID could be determined. Consider running `gcloud config set project` or setting the GOOGLE_CLOUD_PROJECT environment variable
+[2024-12-19 11:37:17,784] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-19 11:37:17,784] INFO - ----------- Downloading uk-gam-datasets folder from KaggleHub ---------
+[2024-12-19 11:37:18,257] INFO - ----------- Uploading uk-gam-datasets folder to Google Cloud Storage -------
+[2024-12-19 11:38:55,466] INFO - Uploaded 2024_premises-licence-register.csv to bucketname_removed.
+[2024-12-19 11:38:55,466] INFO - Uploaded Data constituencies_deprivation-dashboard.csv to bucketname_removed.
+[2024-12-19 11:38:55,466] INFO - Uploaded NS-SEC_2021.xlsx to bucketname_removed.
+[2024-12-19 11:38:55,467] INFO - Failed to upload postcodes.csv due to exception: ('Connection aborted.', TimeoutError('The write operation timed out'))
