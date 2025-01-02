@@ -1,0 +1,72 @@
+{
+    "imputation_rules": {
+      "onsconstid": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "constituencyname"
+      },
+      "constituencyname": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "regnationid": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "regnationname"
+      },
+      "regnationname": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "regnationid"
+      },
+      "natcomparator": {
+        "type": "categorical",
+        "method": "NMAR",
+        "fill_value": "Missing"
+      },
+      "groups": {
+        "type": "categorical",
+        "method": "NMAR",
+        "fill_value": "Missing"
+      },
+      "variables": {
+        "type": "categorical",
+        "method": "NMAR",
+        "fill_value": "Missing"
+      },
+      "con_num": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "con_pc": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "rn_pc": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "nat_pc": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "ranking_total": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "rank": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      }
+    },
+    "deduplication_rules": {
+      "deduplicate": false
+    }
+}
