@@ -23,3 +23,81 @@
 [2024-12-19 11:38:55,466] INFO - Uploaded Data constituencies_deprivation-dashboard.csv to bucketname_removed.
 [2024-12-19 11:38:55,466] INFO - Uploaded NS-SEC_2021.xlsx to bucketname_removed.
 [2024-12-19 11:38:55,467] INFO - Failed to upload postcodes.csv due to exception: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2024-12-20 17:52:48,178] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-20 17:52:48,179] INFO - ----------- Downloading uk-gam-datasets folder from KaggleHub ---------
+[2024-12-20 17:52:49,124] INFO - ----------- Uploading uk-gam-datasets folder to Google Cloud Storage -------
+[2024-12-20 17:54:05,220] INFO - Uploaded 2024_premises-licence-register.csv to bucketname_removed.
+[2024-12-20 17:54:05,220] INFO - Uploaded Data constituencies_deprivation-dashboard.csv to bucketname_removed.
+[2024-12-20 17:54:05,220] INFO - Uploaded NS-SEC_2021.xlsx to bucketname_removed.
+[2024-12-20 17:54:05,220] INFO - Failed to upload postcodes.csv due to exception: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2024-12-20 18:01:28,913] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-20 18:01:28,914] INFO - ----------- Downloading uk-gam-datasets folder from KaggleHub ---------
+[2024-12-20 18:01:29,401] INFO - ----------- Uploading uk-gam-datasets folder to Google Cloud Storage -------
+[2024-12-20 18:03:00,196] INFO - Uploaded 2024_premises-licence-register.csv to bucketname_removed.
+[2024-12-20 18:03:00,197] INFO - Uploaded Data constituencies_deprivation-dashboard.csv to bucketname_removed.
+[2024-12-20 18:03:00,197] INFO - Uploaded NS-SEC_2021.xlsx to bucketname_removed.
+[2024-12-20 18:03:00,197] INFO - Failed to upload postcodes.csv due to exception: None: Max retries exceeded with url: /upload/storage/v1/b/bucktname_removed-1/o?uploadType=resumable&upload_id=AFiumC49w9mp_eX23vOYhK1DSk5yuVjeeNLe6XpqKKNy92tyLcU_kR9tz8BkkzBlrsa8fFHFtMaCgiD6XfnBBjf6Z9uYFLqTXTKnR76d3xcUjGA (Caused by None)
+[2024-12-21 12:01:37,387] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-21 12:01:37,389] INFO - ----------- Downloading uk-gam-datasets folder from KaggleHub ---------
+[2024-12-21 12:01:38,365] INFO - ----------- Uploading uk-gam-datasets folder to Google Cloud Storage -------
+[2024-12-21 12:15:25,225] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-21 12:15:25,225] INFO - ----------- Downloading uk-gam-datasets folder from KaggleHub ---------
+[2024-12-21 12:15:25,795] INFO - ----------- Uploading uk-gam-datasets folder to Google Cloud Storage -------
+[2024-12-21 12:15:40,695] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-21 12:15:40,696] INFO - ----------- Downloading uk-gam-datasets folder from KaggleHub ---------
+[2024-12-21 12:15:41,272] INFO - ----------- Uploading uk-gam-datasets folder to Google Cloud Storage -------
+[2024-12-21 12:16:56,610] INFO - Uploaded 2024_premises-licence-register.csv to bucketname_removed.
+[2024-12-21 12:16:56,610] INFO - Uploaded Data constituencies_deprivation-dashboard.csv to bucketname_removed.
+[2024-12-21 12:16:56,611] INFO - Uploaded NS-SEC_2021.xlsx to bucketname_removed.
+[2024-12-21 12:16:56,611] INFO - Failed to upload postcodes.csv due to exception: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2024-12-21 12:48:17,337] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-21 12:48:17,337] INFO - ----------- Downloading uk-gam-datasets folder from KaggleHub ---------
+[2024-12-21 12:48:17,919] INFO - ----------- Uploading uk-gam-datasets folder to Google Cloud Storage -------
+[2024-12-21 12:48:32,690] INFO - Uploaded 2024_premises-licence-register.csv to bucketname_removed.
+[2024-12-21 12:48:32,690] INFO - Uploaded Data constituencies_deprivation-dashboard.csv to bucketname_removed.
+[2024-12-21 12:48:32,690] INFO - Uploaded NS-SEC_2021.xlsx to bucketname_removed.
+[2024-12-23 09:59:19,628] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-23 09:59:19,629] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-23 10:01:03,085] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-23 10:01:03,085] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 10:43:13,544] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-25 10:43:13,545] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 10:45:12,419] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-25 10:45:12,419] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 11:03:12,360] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-25 11:03:12,360] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 11:03:26,342] INFO - Successfully converted file to pd.DataFrame
+[2024-12-25 11:12:25,100] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-25 11:12:25,100] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 11:12:38,024] INFO - Successfully converted file to pd.DataFrame
+[2024-12-25 11:13:40,517] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-25 11:13:40,517] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 11:14:08,283] INFO - Successfully converted file to pd.DataFrame
+[2024-12-25 11:14:44,651] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-25 11:14:44,651] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 11:14:56,096] INFO - Successfully converted file to pd.DataFrame
+[2024-12-25 11:15:34,977] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-25 11:15:34,977] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 11:15:46,754] INFO - Successfully converted file to pd.DataFrame
+[2024-12-25 11:16:35,787] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-25 11:16:35,787] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 11:16:47,993] INFO - Successfully converted file to pd.DataFrame
+[2024-12-25 11:22:14,675] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-25 11:22:14,676] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 11:22:32,198] INFO - File has been saved in memory
+[2024-12-25 11:22:34,560] INFO - File has been uploaded to GCS
+[2024-12-25 13:55:27,251] INFO - Logger initialized with file: C:\Users\natha\PycharmProjects\gambling_premises_uk\logs\data_ingestion.log
+[2024-12-25 13:55:33,093] INFO - ----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------
+[2024-12-25 14:05:11,508] INFO - Successfully converted file to pd.DataFrame
+[2024-12-25 14:06:51,545] INFO - ----------- Extract Postcodes into list ---------
+[2024-12-25 14:06:53,458] INFO - ----------- Launch webscraper to extract Local Coucil names from 'https://www.gov.uk/find-local-council' ---------
+[2024-12-25 14:06:53,460] INFO - ====== WebDriver manager ======
+[2024-12-25 14:06:57,071] INFO - Get LATEST chromedriver version for google-chrome
+[2024-12-25 14:06:57,318] INFO - Get LATEST chromedriver version for google-chrome
+[2024-12-25 14:06:57,433] INFO - Get LATEST chromedriver version for google-chrome
+[2024-12-25 14:06:57,719] INFO - WebDriver version 131.0.6778.204 selected
+[2024-12-25 14:06:57,723] INFO - Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.204/win32/chromedriver-win32.zip
+[2024-12-25 14:06:57,724] INFO - About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.204/win32/chromedriver-win32.zip
+[2024-12-25 14:06:57,860] INFO - Driver downloading response is 200
+[2024-12-25 14:06:59,713] INFO - Get LATEST chromedriver version for google-chrome
+[2024-12-25 14:07:01,155] INFO - Driver has been saved in cache [C:\Users\natha\.wdm\drivers\chromedriver\win64\131.0.6778.204]
