@@ -1,9 +1,7 @@
 .idea/
-/src/
-!/src/__init__.py
-!/src/visualisation/__init__.py
-!/src/__init__.py
-!/src/data/__init__.py
-!/src/__init__.py
+/src/__pycache__/
+/src/data_cleaning/__pycache__/
+/src/data_ingestion/__pycache__/
 .venv/
 .vscode/
+/logs/data_cleaning.log

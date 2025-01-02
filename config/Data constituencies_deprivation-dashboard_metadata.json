@@ -1,0 +1,72 @@
+{
+    "imputation_rules": {
+      "onsconstid": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "constituencyname"
+      },
+      "constituencyname": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "regionid": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "regionname"
+      },
+      "regionname": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "regionid"
+      },
+      "countryid": {
+        "type": "categorical",
+        "method": "NMAR",
+        "fill_value": "Missing"
+      },
+      "imd_rank_2019": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "income": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "employment": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "education,_skills_and_training": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "health_deprivation_and_disability": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "crime": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "barriers_to_housing_and_services": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      },
+      "living_environment": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "onsconstid"
+      }
+    },
+    "deduplication_rules": {
+      "deduplicate": false
+    }
+}
