@@ -1,0 +1,16 @@
+-- File: nsec_groups_acceptable_values_assertions.sqlx
+
+config {
+   type: "assertion",  
+   name: "check_column_accepted_values"  
+} 
+
+SELECT * 
+FROM  silver.clean_national_socio_economic_class
+WHERE `groups` NOT IN (
+    'Routine and manual occupations',
+    'Managerial, administrative and professional occupations',
+    'Intermediate occupations',
+    'Never worked / long-term unemployed',
+    'Full-time students'
+)
