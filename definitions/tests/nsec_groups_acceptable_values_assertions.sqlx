@@ -6,7 +6,7 @@ config {
 } 
 
 SELECT * 
-FROM  silver.clean_national_socio_economic_class
+FROM `gambling-premises-data.silver_ew.clean_national_socio_economic_class`
 WHERE `groups` NOT IN (
     'Routine and manual occupations',
     'Managerial, administrative and professional occupations',

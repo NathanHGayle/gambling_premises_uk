@@ -12,4 +12,4 @@ SELECT
     nat_pc,
     ranking_total,
     rank
-FROM `gambling-premises-data.silver_layer.clean_national_socio_economic_class`
+FROM `gambling-premises-data.silver_ew.clean_national_socio_economic_class`
