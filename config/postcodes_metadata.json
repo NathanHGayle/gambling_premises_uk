@@ -1,0 +1,5 @@
+{
+    "deduplication_rules": {
+      "deduplicate": false
+    }
+}
