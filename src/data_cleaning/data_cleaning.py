@@ -291,6 +291,7 @@ def pipeline(input_logger,name,extension, bucketname):
     try: 
         # Read data from GCS
         df = read_gcs_file(input_logger, bucketname,name + extension) 
+
         if df is None:
             input_logger.error(f"{name}{extension} is None from GCS.")
             return None     
@@ -356,10 +357,10 @@ def main():
 
     # List of files
     files = [
-        # {"name": "2024_premises-licence-register", "extension": ".csv"},
-        # {"name": "Data constituencies_deprivation-dashboard", "extension": ".csv"},
-        {"name": "NS-SEC_2021", "extension": ".csv"} #,
-        # {"name": "postcodes", "extension": ".csv"}
+        {"name": "2024_premises-licence-register", "extension": ".csv"},
+        {"name": "Data constituencies_deprivation-dashboard", "extension": ".csv"},
+        {"name": "NS-SEC_2021", "extension": ".csv"} ,
+        {"name": "postcodes", "extension": ".csv"}
     ]
 
     # Loop through files to clean and accumulate audit data
@@ -377,7 +378,7 @@ def main():
     # Upload the combined audit dataframe
     gsc_dir_audit = "AUDITS"
     upload_df_to_gcs(logger, bucketname, gsc_dir_audit, all_audits_df, "combined_audit", ".csv")
-
-
+ 
+ 
 if __name__ == "__main__":
         main()
