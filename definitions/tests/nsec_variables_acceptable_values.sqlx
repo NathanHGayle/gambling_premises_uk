@@ -1,0 +1,19 @@
+config {
+    type: "assertion"
+}
+
+  -- File: nsec_variable_acceptable_values.sqlx
+SELECT
+  *
+FROM
+  ${ref("src_national_socio_economic_class")}
+WHERE
+  variables NOT IN ( 'Higher managerial, administrative and professional occupations',
+    'Lower managerial, administrative and professional occupations',
+    'Intermediate occupations',
+    'Small employers and own account workers',
+    'Lower supervisory and technical occupations',
+    'Semi-routine occupations',
+    'Routine occupations',
+    'Never worked / long-term unemployed',
+    'Full-time students' )

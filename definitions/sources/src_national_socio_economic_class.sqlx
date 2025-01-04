@@ -1,0 +1,38 @@
+config {
+    type: "view",
+    columns: {
+        constituencyid: "The hashed uniqueid for each Constituency",
+        onsconstid: "The natural uniqueid for each Constituency",
+        variables: "The lowest hierachy of socio-economic classification",
+        groups: "The highest hierachy of socio-economic classification",
+        con_num: "The population of the constituency"
+    }
+}
+
+  -- File name is src_national_socio_economic_class.sqlx
+WITH
+  nsec AS (
+  SELECT
+    SHA1(onsconstid) AS constituencyid,
+    onsconstid,
+    constituencyname,
+    CASE
+      WHEN TRIM(`groups`) = TRIM(variables) THEN LOWER(`groups`)
+      ELSE CONCAT(LOWER(`groups`),'_',LOWER(variables))
+  END
+    AS group_variable,
+    variables,
+    `groups`,
+    con_num
+  FROM
+    `gambling-premises-data.silver_ew.clean_national_socio_economic_class` )
+SELECT
+  constituencyid,
+  onsconstid,
+  constituencyname,
+  REPLACE(REPLACE(REPLACE(REPLACE(group_variable,',',''),' / ','_'),'-',''),' ','_') AS group_variable,
+  variables,
+  `groups`,
+  con_num
+FROM
+  nsec
