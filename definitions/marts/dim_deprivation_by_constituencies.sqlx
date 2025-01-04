@@ -1,0 +1,32 @@
+config {
+    type: "view",
+    columns: {
+        constituencyid: "The hashed uniqueid for each Constituency",
+        onsconstid: "The natural uniqueid for each Constituency",
+        constituencyname: "The name of the Constituency",
+        imd_rank_2019: "Index of Multiple Deprivation constituency rank where rank 1 is the most deprived",
+        income: "Measures the proportion of the population in an area experiencing deprivation relating to low income",
+        employment: "Measures the proportion of the working-age population in an area involuntarily excluded from the labour market",
+        education_skills_and_training: "measures the lack of attainment and skills in the local population",
+        health_deprivation_and_disability: "measures the risk of premature death and the impairment of quality of life through poor physical or mental health",
+        crime: "measures the risk of personal and material victimisation at local level",
+        barriers_to_housing_and_services: "measures the physical and financial accessibility of housing and local services",
+        living_environment: "measures the quality of the local environment. The indicators fall into two sub-domains. The 'indoors' living environment measures the quality of housing; while the 'outdoors' living environment contains measures of air quality and road traffic accidents"
+    },
+}
+
+-- File name is dim_deprivation_by_constituencies.sqlx
+
+SELECT
+    constituencyid,
+    onsconstid,
+    constituencyname,
+    imd_rank_2019,
+    income,
+    employment,
+    education_skills_and_training,
+    health_deprivation_and_disability,
+    crime,
+    barriers_to_housing_and_services,
+    living_environment
+  FROM   ${ref("src_deprivation_by_constituencies")}

@@ -3,9 +3,14 @@ config {
     columns: {
         constituencyid: "The hashed uniqueid for each Constituency",
         onsconstid: "The natural uniqueid for each Constituency",
+        constituencyname: "The name of the Constituency",
+        group_variable: "Concatenation of the groups and variables columns",
         variables: "The lowest hierachy of socio-economic classification",
         groups: "The highest hierachy of socio-economic classification",
         con_num: "The population of the constituency"
+    },
+    assertions: {
+    uniqueKey: ["constituencyid"]
     }
 }
 
