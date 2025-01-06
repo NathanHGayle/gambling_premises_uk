@@ -3,7 +3,7 @@ config {
     columns: {
         constituencyid: "The hashed uniqueid for each Constituency",
         onsconstid: "The natural uniqueid for each Constituency",
-        constituencyname: "The name of the Constituency",
+        constituency_name: "The name of the Constituency",
         imd_rank_2019: "Index of Multiple Deprivation constituency rank where rank 1 is the most deprived",
         income: "Measures the proportion of the population in an area experiencing deprivation relating to low income",
         employment: "Measures the proportion of the working-age population in an area involuntarily excluded from the labour market",
@@ -22,9 +22,9 @@ config {
 
   -- File name is src_deprivation_by_constituencies.sqlx
   SELECT
-    SHA1(onsconstid) AS constituencyid,
-    onsconstid,
-    constituencyname,
+    SHA1(TRIM(onsconstid)) AS constituencyid,
+    TRIM(onsconstid) AS onsconstid,
+    TRIM(constituencyname) AS constituency_name,
     imd_rank_2019,
     income,
     employment,

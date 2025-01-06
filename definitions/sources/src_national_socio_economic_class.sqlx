@@ -3,14 +3,11 @@ config {
     columns: {
         constituencyid: "The hashed uniqueid for each Constituency",
         onsconstid: "The natural uniqueid for each Constituency",
-        constituencyname: "The name of the Constituency",
+        constituency_name: "The name of the Constituency",
         group_variable: "Concatenation of the groups and variables columns",
         variables: "The lowest hierachy of socio-economic classification",
         groups: "The highest hierachy of socio-economic classification",
         con_num: "The population of the constituency"
-    },
-    assertions: {
-    uniqueKey: ["constituencyid"]
     }
 }
 
@@ -18,9 +15,9 @@ config {
 WITH
   nsec AS (
   SELECT
-    SHA1(onsconstid) AS constituencyid,
-    onsconstid,
-    constituencyname,
+    SHA1(TRIM(onsconstid)) AS constituencyid,
+    TRIM(onsconstid) AS onsconstid,
+    TRIM(constituencyname) AS constituency_name,
     CASE
       WHEN TRIM(`groups`) = TRIM(variables) THEN LOWER(`groups`)
       ELSE CONCAT(LOWER(`groups`),'_',LOWER(variables))
@@ -34,7 +31,7 @@ WITH
 SELECT
   constituencyid,
   onsconstid,
-  constituencyname,
+  constituency_name,
   REPLACE(REPLACE(REPLACE(REPLACE(group_variable,',',''),' / ','_'),'-',''),' ','_') AS group_variable,
   variables,
   `groups`,

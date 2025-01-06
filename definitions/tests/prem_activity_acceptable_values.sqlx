@@ -1,0 +1,16 @@
+config {
+    type: "assertion"
+}
+
+  -- File: prem_activity_acceptable_values.sqlx
+SELECT
+  *
+FROM
+  ${ref("src_premises_licence_register")}
+WHERE
+  variables NOT IN ( 'betting shop',
+    'adult gaming centre',
+    'bingo',
+    'missing',
+    'family entertainment centre',
+    'casino')

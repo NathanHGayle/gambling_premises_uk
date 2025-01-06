@@ -1,0 +1,23 @@
+config {
+    type: "assertion"
+}
+
+  -- File name is stg_nsec_acceptable_values.sqlx
+SELECT
+  *
+FROM
+  `gambling-premises-data.silver_ew.INFORMATION_SCHEMA.COLUMNS`
+WHERE
+  table_name = 'stg_national_socio_economic_class'
+  AND column_name NOT IN ( 'constituencyid',
+    'onsconstid',
+    'constituency_name',
+    'fulltime_students',
+    'intermediate_occupations',
+    'intermediate_occupations_small_employers_and_own_account_workers',
+    'managerial_administrative_and_professional_occupations_higher_managerial_administrative_and_professional_occupations',
+    'managerial_administrative_and_professional_occupations_lower_managerial_administrative_and_professional_occupations',
+    'never_worked_longterm_unemployed',
+    'routine_and_manual_occupations_lower_supervisory_and_technical_occupations',
+    'routine_and_manual_occupations_routine_occupations',
+    'routine_and_manual_occupations_semiroutine_occupations' )

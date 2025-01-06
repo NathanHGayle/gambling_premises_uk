@@ -1,0 +1,27 @@
+config {
+    type: "view",
+    columns: {
+        postcodeid: "The hashed unique postcode for each postcode in the UK",
+        postcode: "The postcode",
+        in_use: "The status of the Postcode: true / false",
+        latitude: "The latitude coordinates of the postcode",
+        longitude: "The longitude coordinates of the postcode",
+        postcode_district: "The broader district that the postcode belongs to",
+        constituency_name: "The name of the Constituency",
+    },
+    assertions: {
+    uniqueKey: ["postcodeid"]
+    }
+}
+
+  -- File name is src_deprivation_by_constituencies.sqlx
+  SELECT
+    SHA1(TRIM(postcode)) AS postcodeid,
+    TRIM(postcode) AS postcode,
+    in_use,
+    latitude,
+    longitude,
+    postcode_district,
+    constituency AS constituency_name
+  FROM
+    `gambling-premises-data.silver_ew.clean_postcodes` 

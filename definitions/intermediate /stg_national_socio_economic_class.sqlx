@@ -1,6 +1,9 @@
 config {
     type: "view",
     columns: {
+        constituencyid: "The hashed uniqueid for each Constituency",
+        onsconstid: "The natural uniqueid for each Constituency",
+        constituency_name: "The name of the Constituency",
         fulltime_students: "People over 16 who are engaged in full-time courses of study in secondary, tertiary or higher education institutions",
         intermediate_occupations: "Positions in clerical, sales, service and intermediate technical occupations that do not involve general planning or supervisory powers",
         intermediate_occupations_small_employers_and_own_account_workers: 'Small employers remain essentially in direct control of their enterprises',
@@ -16,13 +19,13 @@ config {
     }
 }
 
-  -- File is named dim_national_socio_economic_class.sqlx
+  -- File is named stg_national_socio_economic_class.sqlx
 WITH
   basePivot AS (
   SELECT
     constituencyid,
     onsconstid,
-    constituencyname,
+    constituency_name,
     group_variable,
     con_num
   FROM
@@ -42,14 +45,3 @@ PIVOT
       'routine_and_manual_occupations_lower_supervisory_and_technical_occupations',
       'routine_and_manual_occupations_routine_occupations',
       'routine_and_manual_occupations_semiroutine_occupations' ) )
-
-
--- Display Existing Categories
-
--- SELECT
---     group_variable,
---     COUNT(*) AS test
--- FROM basePivot
--- GROUP BY group_variable
--- ORDER BY group_variable
-

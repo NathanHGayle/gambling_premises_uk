@@ -1,0 +1,10 @@
+config {
+    type: "assertion"
+}
+
+  -- File name is postcodes_acceptable_values.sqlx
+SELECT *
+FROM
+  ${ref("src_postcodes")}
+WHERE
+  in_use NOT IN ( true, false)

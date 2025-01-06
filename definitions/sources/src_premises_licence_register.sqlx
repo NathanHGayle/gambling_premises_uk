@@ -1,0 +1,52 @@
+config {
+    type: "view",
+    columns: {
+        premises_licenceid: "The hashed concatenated premisesid, accountid and activity",
+        premisesid: "The hashed concatenated address fields",
+        accountid: "The hashed account_number",
+        postcodeid: "The hashed trimmed postcode",
+        account_number: "The account number of the licensee operating the premises",
+        account_name: "The legal name of the gambling business operating the premises",
+        activity: "The activity the gambling premises is liscenced for - this can be multiple activities per full address",
+        local_authority: "The responsible licensing authority for licensing the premises",
+        address_line_1: "The first address line of the premises",
+        address_line_2: "The second address line of the premises",
+        city: "The city of the premises",
+        postcode: "The postcode of the premises",
+        full_address: "The concatenated full address of the premises"
+    }
+}
+
+  -- File name is src_deprivation_by_constituencies.sqlx
+  WITH prem AS(
+  SELECT
+    SHA1(CAST(account_number AS STRING)) accountid,
+    SHA1(TRIM(postcode)) AS postcodeid,
+    account_number,
+    LOWER(TRIM(account_name)) AS account_name,
+    LOWER(TRIM(premises_activity)) as activity,
+    local_authority,
+    address_line_1,
+    address_line_2,
+    city,
+    postcode,
+    CONCAT(address_line_1,',',address_line_2,',',city,',',postcode) AS full_address
+  FROM
+    `gambling-premises-data.silver_ew.clean_premises_licence_register` 
+  )
+
+  SELECT 
+    SHA1(concat(full_address,account_number,account_name,activity)) AS premises_licenceid,
+    SHA1(full_address) AS premisesid,
+    accountid,
+    postcodeid,
+    account_number,
+    account_name,
+    activity,
+    local_authority,
+    address_line_1,
+    address_line_2,
+    city,
+    postcode,
+    full_address
+    FROM prem

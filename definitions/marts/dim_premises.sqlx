@@ -1,0 +1,58 @@
+config {
+    type: "view",
+    columns: {
+        premisesid: "The hashed concatenated address fields",
+        address_line_1: "The first address line of the premises",
+        address_line_2: "The second address line of the premises",
+        city: "The city of the premises",
+        postcode: "The postcode of the premises",
+        full_address: "The concatenated full address of the premises",
+        postcodeid: "The hashed trimmed postcode",
+        local_authority: "The responsible licensing authority for licensing the premises",
+        in_use: "The status of the Postcode: true / false",
+        latitude: "The latitude coordinates of the postcode",
+        longitude: "The longitude coordinates of the postcode",
+        postcode_district: "The broader district that the postcode belongs to",
+        constituency_name: "The name of the Constituency"
+    },
+    assertions: {
+    uniqueKey: ["premisesid"]
+    }
+}
+
+WITH d_prem AS(
+SELECT
+    premisesid,
+    address_line_1,
+    address_line_2,
+    city,
+    postcode,
+    full_address,
+    postcodeid,
+    local_authority,
+    ROW_NUMBER() OVER (PARTITION BY premisesid ORDER BY premisesid) AS row
+FROM   ${ref("src_premises_licence_register")}
+)
+
+SELECT 
+    p.premisesid,
+    p.address_line_1,
+    p.address_line_2,
+    p.city,
+    p.postcode,
+    p.full_address,
+    p.postcodeid,
+    p.local_authority,
+    c.in_use,
+    c.latitude,
+    c.longitude,
+    c.postcode_district,
+    c.constituency_name
+FROM d_prem p
+LEFT JOIN ${ref("src_postcodes")} c USING(postcodeid)
+WHERE row = 1
+
+
+
+
+

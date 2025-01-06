@@ -1,0 +1,27 @@
+config {
+    type: "view",
+    columns: {
+        constituencyid: "The hashed uniqueid for each Constituency",
+        onsconstid: "The natural uniqueid for each Constituency",
+        constituency_name: "The name of the Constituency"
+        },
+    assertions: {
+        uniqueKey: ["constituencyid"]
+    }
+}
+
+  -- File is named stg_all_constituencies.sqlx
+
+SELECT
+  constituencyid,
+  onsconstid,
+  constituency_name
+FROM  ${ref("stg_national_socio_economic_class")} 
+ 
+UNION DISTINCT
+
+SELECT
+  constituencyid,
+  onsconstid,
+  constituency_name
+FROM  ${ref("src_deprivation_by_constituencies")} 
