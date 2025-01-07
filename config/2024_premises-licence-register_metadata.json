@@ -46,7 +46,7 @@
     },
     "replacement_rules": {
       "premises_activity": {
-        "Casino 2005":"Casino"
+        "Casino 2005":"casino"
       },
       "address_line_1": {
         "caesar's palace": "caesars palace",

@@ -256,7 +256,7 @@ def clean_strings(input_logger,df, df_name, metadata):
             })
 
             if occurrences > 0:
-                df[column] = df[column].replace({old_value: new_value.title()}, regex=True)
+                df[column] = df[column].replace({old_value: new_value}, regex=True)
 
     temp_audit_df = pd.DataFrame(audit_data)
     input_logger.info("Completed all replacements.")
@@ -357,10 +357,10 @@ def main():
 
     # List of files
     files = [
-        {"name": "2024_premises-licence-register", "extension": ".csv"},
-        {"name": "Data constituencies_deprivation-dashboard", "extension": ".csv"},
-        {"name": "NS-SEC_2021", "extension": ".csv"} ,
-        {"name": "postcodes", "extension": ".csv"}
+        {"name": "2024_premises-licence-register", "extension": ".csv"} #,
+        # {"name": "Data constituencies_deprivation-dashboard", "extension": ".csv"},
+        # {"name": "NS-SEC_2021", "extension": ".csv"},
+        # {"name": "postcodes", "extension": ".csv"}
     ]
 
     # Loop through files to clean and accumulate audit data
