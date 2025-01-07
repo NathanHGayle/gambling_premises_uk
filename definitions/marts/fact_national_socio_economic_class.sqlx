@@ -1,5 +1,5 @@
 config {
-    type: "view",
+    type: "table",
     columns: {
         constituencyid: "The hashed uniqueid for each Constituency",
         onsconstid: "The natural uniqueid for each Constituency",
@@ -19,7 +19,8 @@ config {
     }
 }
 
-  -- File is named stg_national_socio_economic_class.sqlx
+-- File name is fact_national_socio_economic_class.sqlx
+
 WITH
   basePivot AS (
   SELECT

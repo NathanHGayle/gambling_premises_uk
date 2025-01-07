@@ -1,0 +1,20 @@
+config {
+    type: "table",
+    columns: {
+        premises_licenceid: "The hashed concatenated premisesid, accountid and activity",
+        premisesid: "The hashed concatenated address fields",
+        full_address: "The concatenated address fields",
+        activity: "The activity the gambling premises is liscenced for - this can be multiple activities per full address"
+    },
+
+}
+
+-- File name is dim_activity_licences.sql
+
+SELECT
+    premises_licenceid,
+    premisesid,
+    full_address,
+    activity
+FROM ${ref("src_premises_licence_register")} 
+

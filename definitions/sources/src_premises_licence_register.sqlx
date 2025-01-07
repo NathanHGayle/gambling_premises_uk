@@ -17,7 +17,7 @@ config {
     }
 }
 
-  -- File name is src_deprivation_by_constituencies.sqlx
+  -- File name is src_premises_licence_register.sqlx
   WITH prem AS(
   SELECT
     SHA1(CAST(account_number AS STRING)) accountid,
@@ -36,7 +36,7 @@ config {
   )
 
   SELECT 
-    SHA1(concat(full_address,account_number,account_name,activity)) AS premises_licenceid,
+    SHA1(concat(full_address,activity)) AS premises_licenceid,
     SHA1(full_address) AS premisesid,
     accountid,
     postcodeid,

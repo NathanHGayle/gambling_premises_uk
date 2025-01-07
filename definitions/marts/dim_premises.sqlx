@@ -1,5 +1,5 @@
 config {
-    type: "view",
+    type: "table",
     columns: {
         premisesid: "The hashed concatenated address fields",
         address_line_1: "The first address line of the premises",
@@ -19,6 +19,7 @@ config {
     uniqueKey: ["premisesid"]
     }
 }
+-- File name is dim_premises.sqlx
 
 WITH d_prem AS(
 SELECT

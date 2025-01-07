@@ -1,0 +1,27 @@
+config {
+    type: "view",
+    columns: {
+        premisesid: "The hashed concatenated address fields",
+        accountid: "The hashed account_number",
+        account_number: "The account number of the licensee operating the premises",
+        account_name: "The legal name of the gambling business operating the premises",
+    },
+    assertions: {
+     uniqueKey: ["premisesid"]
+    }
+}
+
+-- File name is stg_premises_liscences_grouped.sqlx
+
+SELECT
+premisesid,
+full_address,
+SUM(CASE WHEN activity = 'betting shop' THEN 1 ELSE 0 END) AS betting_shop,
+SUM(CASE WHEN activity = 'adult gaming centre' THEN 1 ELSE 0 END) AS adult_gaming_centre,
+SUM(CASE WHEN activity = 'bingo'THEN 1 ELSE 0 END) AS bingo,
+SUM(CASE WHEN activity = 'missing' OR activity IS NULL THEN 1 ELSE 0 END) AS missing,
+SUM(CASE WHEN activity = 'family entertainment centre' THEN 1 ELSE 0 END) AS family_entertainment_centre ,
+SUM(CASE WHEN activity = 'casino' THEN 1 ELSE 0 END) AS casino,
+SUM(CASE WHEN activity IS NOT NULL THEN 1 ELSE 0 END) AS total_licenced_activities
+FROM ${ref("dim_activity_licences")} 
+GROUP BY premisesid, full_address

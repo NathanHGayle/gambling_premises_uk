@@ -8,7 +8,7 @@ SELECT
 FROM
   ${ref("src_premises_licence_register")}
 WHERE
-  variables NOT IN ( 'betting shop',
+    activity NOT IN ( 'betting shop',
     'adult gaming centre',
     'bingo',
     'missing',

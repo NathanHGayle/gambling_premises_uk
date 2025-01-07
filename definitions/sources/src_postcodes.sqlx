@@ -22,6 +22,6 @@ config {
     latitude,
     longitude,
     postcode_district,
-    constituency AS constituency_name
+    TRIM(constituency) AS constituency_name
   FROM
     `gambling-premises-data.silver_ew.clean_postcodes` 

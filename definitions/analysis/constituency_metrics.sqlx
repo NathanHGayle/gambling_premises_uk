@@ -1,9 +1,18 @@
 config {
-    type: "view",
+    type: "table",
     columns: {
         constituencyid: "The hashed uniqueid for each Constituency",
         onsconstid: "The natural uniqueid for each Constituency",
         constituency_name: "The name of the Constituency",
+        constituency_nameid: "The hashed name of the Constituency",
+        total_premises: "The distinct count of all gambling full addresses (premisesid) by constituency",
+        total_betting_shops_licences: "The total betting shop activity liscences referenced",
+        total_adult_gaming_centre_licences: "The total adult gaming centre activity liscences referenced",
+        total_bingo_licences: "The total bingo activity liscences referenced",
+        total_missing_licences: "The total missing activity liscences referenced",
+        total_family_entertainment_centre_licences: "The total family centre entertainment activity liscences",
+        total_casino_licences: "The total casino activity liscences",
+        total_licenced_activities : "The total activity liscences referenced",
         imd_rank_2019: "Index of Multiple Deprivation constituency rank where rank 1 is the most deprived",
         income: "Measures the proportion of the population in an area experiencing deprivation relating to low income",
         employment: "Measures the proportion of the working-age population in an area involuntarily excluded from the labour market",
@@ -28,11 +37,38 @@ config {
         uniqueKey: ["constituencyid"]
     }
 }
+-- File name is constituency_metrics.sqlx
+
+WITH grouped_prem_with_licences AS(
+SELECT
+    dp.constituency_name,
+    COUNT(DISTINCT dp.premisesid) AS total_premises,
+    SUM(plg.betting_shop) AS total_betting_shops_licences,
+    SUM(plg.adult_gaming_centre) AS total_adult_gaming_centre_licences,
+    SUM(plg.bingo) AS total_bingo_licences,
+    SUM(plg.missing) AS total_missing_licences,
+    SUM(plg.family_entertainment_centre) AS total_family_entertainment_centre_licences ,
+    SUM(plg.casino) AS total_casino_licences,
+    SUM(plg.total_licenced_activities) AS total_licenced_activities
+FROM ${ref("dim_premises")} dp
+    LEFT JOIN ${ref("stg_premises_liscences_grouped")} plg USING(premisesid)
+GROUP BY constituency_name
+)
+
 
 SELECT
     ac.constituencyid,
     ac.onsconstid,
     ac.constituency_name,
+    SHA1(TRIM(ac.constituency_name)) AS constituency_nameid,
+    gpl.total_premises,
+    gpl.total_betting_shops_licences,
+    gpl.total_adult_gaming_centre_licences,
+    gpl.total_bingo_licences,
+    gpl.total_missing_licences,
+    gpl.total_family_entertainment_centre_licences,
+    gpl.total_casino_licences,
+    gpl.total_licenced_activities,
     d.imd_rank_2019,
     d.income,
     d.employment,
@@ -51,5 +87,6 @@ SELECT
     n.routine_and_manual_occupations_routine_occupations,
     n.routine_and_manual_occupations_semiroutine_occupations
 FROM ${ref("stg_all_constituencies")} ac 
-    LEFT JOIN ${ref("src_deprivation_by_constituencies")} d ON ac.constituencyid = d.constituencyid
-    LEFT JOIN ${ref("stg_national_socio_economic_class")} n ON ac.constituencyid = n.constituencyid
+    LEFT JOIN ${ref("dim_deprivation")} d ON ac.constituencyid = d.constituencyid
+    LEFT JOIN ${ref("fact_national_socio_economic_class")} n ON ac.constituencyid = n.constituencyid
+    LEFT JOIN grouped_prem_with_licences gpl ON SHA1(TRIM(ac.constituency_name)) = SHA1(TRIM(ac.constituency_name))  

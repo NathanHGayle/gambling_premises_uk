@@ -16,7 +16,7 @@ SELECT
   constituencyid,
   onsconstid,
   constituency_name
-FROM  ${ref("stg_national_socio_economic_class")} 
+FROM  ${ref("src_national_socio_economic_class")} 
  
 UNION DISTINCT
 

@@ -1,0 +1,17 @@
+config {
+    type: "table",
+    columns: {
+        accountid: "The hashed account_number",
+        account_number: "The account number of the licensee operating the premises",
+        account_name: "The legal name of the gambling business operating the premises",
+        premisesid: "The hashed concatenated address fields"
+    }
+}
+
+-- File name is dim_accounts.sql
+SELECT
+    accountid,
+    account_number,
+    account_name,
+    premisesid
+FROM ${ref("src_premises_licence_register")} 
