@@ -4,6 +4,7 @@ from google.cloud.storage import Client, transfer_manager
 from src.utils.custom_logger import setup_logger
 
 def download_kaggle(input_logger,data_url="nathanhg/uk-gam-datasets"):
+    input_logger.info("----------- Downloading uk-gam-datasets folder from KaggleHub ---------")
     path = kagglehub.dataset_download(data_url)
     input_logger.info("Path to kaggle dataset files:", path)
     return path
@@ -18,8 +19,7 @@ def upload_many_blobs_with_transfer_manager(input_logger,
     file (and other aspects of individual blob metadata), use
     transfer_manager.upload_many() instead.
     """
-    input_logger.info("----------- Downloading uk-gam-datasets folder from KaggleHub ---------")
-
+    input_logger.info("----------- Uploading uk-gam-datasets folder to Google Cloud Storage -------")
     storage_client = Client()
     # bucket = storage_client.bucket(bucket_name)
     bucket = storage_client.get_bucket(bucket_name, timeout=None) #  timeout = 300 / timeout=(3, 10))
@@ -43,14 +43,12 @@ def main():
     logger = setup_logger(log_file_name="data_ingestion.log")
 
     # Kaggle API download
-    logger.info("----------- Downloading uk-gam-datasets folder from KaggleHub ---------")
     directory_path = Path(download_kaggle(logger))  
     
     if not any(directory_path.iterdir()):
          logger.info('Kaggle directory is empty')
 
     # GCS Upload
-    logger.info("----------- Uploading uk-gam-datasets folder to Google Cloud Storage -------")
     files = [file.name for file in directory_path.iterdir() if file.is_file()]
 
     print('Input the bucket name:')

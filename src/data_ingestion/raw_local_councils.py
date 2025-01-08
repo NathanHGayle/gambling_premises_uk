@@ -1,4 +1,4 @@
-# REDUNDANT 
+# REDUNDANT - POTENTIAL FOR IMPROVMENT WITH PARALLELISM  
 
 import json
 import undetected_chromedriver as uc
@@ -10,13 +10,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
 from src.utils.custom_logger import setup_logger
 from google.cloud import storage
-from google.cloud.storage import Blob
 
 
 # Add Google Cloud Storage read dataframe function here to read the Postcodes dataset.
 
 def read_gcs_file(input_logger,bucket_name, blob_name):
     """Write and read a blob from GCS using file-like IO"""
+    input_logger.info("----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------")
     # The ID of your GCS bucket
     # bucket_name = "your-bucket-name"
 
@@ -41,15 +41,17 @@ def read_gcs_file(input_logger,bucket_name, blob_name):
             return None
 
 
-def webscrape_local_council(logger,list_of_postcodes):
+def webscrape_local_council(input_logger,list_of_postcodes):
     """
     Performs a webscrape operation that extracts a dictionary of 'postcodes':'local authority' from .gov.uk/find-local-council
     Params:
     list_of_postcodes (list): A list of strings of postcodes to input into the website
     
     """
+    input_logger.info("----------- Launch webscraper to extract Local Coucil names from 'https://www.gov.uk/find-local-council' ---------")
+    
     if list_of_postcodes == None:
-        logger.info('No postcodes in list')
+        input_logger.info('No postcodes in list')
         
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
@@ -81,14 +83,15 @@ def webscrape_local_council(logger,list_of_postcodes):
                 responses[y] = 'No Local Council data available'
 
     # Save to a JSON file
-    logger.info('Backup: Local save JSON as: "missing_local_authorities.json"')
+    input_logger.info('Backup: Local save JSON as: "missing_local_authorities.json"')
     with open('missing_local_authorities.json', 'w') as file:
         json.dump(responses, file, indent=4)
 
     return responses
 
 
-def filtered_list(df,mask,column):
+def filtered_list(input_logger,df,mask,column):
+    input_logger.info("----------- Extract Postcodes into list ---------")
     df = df.copy()
     # Filter and select the 'Postcode' column
     filtered_postcodes = df.loc[mask,column]
@@ -102,7 +105,8 @@ def upload_to_gcs(input_logger, bucket_name,json_file, gcs_path):
     Params:
 
     """
-    
+    input_logger.info("----------- Writing file to BUCKETNAME_REMOVED / RAW / Postcode_Local Council.csv ---------")
+
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
 
@@ -127,18 +131,15 @@ def main():
     bucketname = input()
     
     # Read file from GCS
-    logger.info("----------- Read file from Google Cloud Storage from BUCKETNAME / RAW / Postcode.csv ---------")
     df = read_gcs_file(logger, bucketname,file_name)
 
     # Extract list of postcodes
-    logger.info("----------- Extract Postcodes into list ---------")
-
+    
     mask = (df["Constituency"].notna()) & (df["Postcode"].notna())
 
-    postcodes_list = filtered_list(df,mask,"Postcode")
+    postcodes_list = filtered_list(logger,df,mask,"Postcode")
 
     # Webscrape Local Council data based on feature
-    logger.info("----------- Launch webscraper to extract Local Coucil names from 'https://www.gov.uk/find-local-council' ---------")
     
     local_council_json = webscrape_local_council(logger, list_of_postcodes= postcodes_list)
     
@@ -147,13 +148,9 @@ def main():
     # with open(test_json, 'r') as file:
     #     local_council_json = json.load(file)
 
-    logger.info("----------- Writing file to BUCKETNAME / RAW / Postcode_Local Council.csv ---------")
-
     upload_to_gcs(logger,bucket_name= bucketname,
                   json_file=local_council_json,
                   gcs_path="RAW/local_authorities.json") 
-
-
 
 if __name__ == "__main__":
         main()
