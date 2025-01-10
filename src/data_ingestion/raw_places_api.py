@@ -2,10 +2,11 @@ import requests as r
 import keyring
 import pandas as pd
 import os
-from datetime import datetime
+import datetime
 
 from google.cloud import bigquery, storage
 from concurrent.futures import ThreadPoolExecutor
+from threading import Lock
 from src.utils.custom_logger import setup_logger
 
 
@@ -89,7 +90,7 @@ def places_api_call(full_address, input_logger):
         return {"places": []}  # Return an empty list in case of error or no data
     
 
-def add_places_to_dict_parallel(input_logger,rows, key_column, value_column):
+def add_places_to_dict_parallel(input_logger, rows, key_column, value_column, max_workers=3):
     """
     Retrieves Google Places API information for a list of rows in parallel using threading.
 
@@ -98,41 +99,51 @@ def add_places_to_dict_parallel(input_logger,rows, key_column, value_column):
         rows (list): A list of dictionaries where each dictionary contains address and premises ID information.
         key_column (str): The key in the dictionaries representing the full address.
         value_column (str): The key in the dictionaries representing the premises ID.
+        max_workers (int): Number of worker threads to use for parallel processing. Default is 3.
 
     Returns:
         pd.DataFrame: A pandas DataFrame containing the enriched data with Google Places API results.
-
     """
     input_logger.info(f"----------- Parallelism process returning Place API info for {key_column}s ---------")
+
+    if not rows:
+        input_logger.error("Input 'rows' is empty. No processing will be done.")
+        return pd.DataFrame()
     
     result = []
     lock = Lock()
+
     def process_row(row):
         address = row[key_column]
         premisesid = row[value_column]
         try:
-            places_data = places_api_call(address,input_logger)
+            places_data = places_api_call(address, input_logger)
             places = places_data.get("places", [])
-            
+
             if places:
-                with lock:  
+                with lock:
                     place_info = places[0]
                     result.append({
                         "full_address": address,
                         "premisesid": premisesid,
                         "g_place_id": place_info.get("id", "Missing"),
                         "g_formatted_address_1": place_info.get("formattedAddress", "Missing"),
-                        "g_business_status_1": place_info.get("businessStatus","Missing"),
+                        "g_business_status_1": place_info.get("businessStatus", "Missing"),
                         "api_call_date": pd.to_datetime(datetime.datetime.now())
                     })
+                if len(result) % 100 == 0:
+                    input_logger.info(f"Processed {len(result)} addresses so far.")
             else:
                 input_logger.warning(f"No place info for {address}")
         except Exception as e:
-            input_logger.error(f"Error processing {address}: {e}")
+            if "429" in str(e):
+                input_logger.error(f"Rate limit hit for {address}. Consider increasing delay or reducing workers.")
+            else:
+                input_logger.error(f"Error processing {address}: {e}")
 
-    with ThreadPoolExecutor(max_workers=3) as executor:
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
         executor.map(process_row, rows)
-        if not result:  
+        if not result:
             input_logger.error(f"Result list is empty - no places_info")
 
     if result:
@@ -142,6 +153,7 @@ def add_places_to_dict_parallel(input_logger,rows, key_column, value_column):
         input_logger.error("Result list is empty. No data added to DataFrame.")
         df = pd.DataFrame()
     input_logger.info("Parallel processing of API calls completed.")
+
 
             
 
