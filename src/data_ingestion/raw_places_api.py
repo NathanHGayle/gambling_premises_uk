@@ -2,6 +2,7 @@ import requests as r
 import keyring
 import pandas as pd
 import os
+from datetime import datetime
 
 from google.cloud import bigquery, storage
 from concurrent.futures import ThreadPoolExecutor
@@ -51,7 +52,7 @@ def read_columns_to_dict_bq(input_logger,table, columns):
     return [dict(row) for row in results]  # Convert rows to dictionaries
 
 
-def places_api_call(input_logger,full_address):
+def places_api_call(full_address, input_logger):
     """
     Makes an API call to the Google Places API to retrieve place information for a given address.
 
@@ -63,7 +64,7 @@ def places_api_call(input_logger,full_address):
         dict: The API response containing place information, or an empty "places" list in case of failure.
 
     """
-    input_logger.info("----------- Calling Place API (New) ---------")
+    # input_logger.info("----------- Calling Place API (New) ---------")
     url = "https://places.googleapis.com/v1/places:searchText"
 
     API_KEY = keyring.get_password("uk_gam_gp", "PLACES_API") #USE ENVIRONMENT VARIABLE
@@ -81,8 +82,10 @@ def places_api_call(input_logger,full_address):
 
     # Ensure the response status is OK and return the JSON content
     if response.status_code == 200:
+        input_logger.info(f"STATUS: {response.status_code}")
         return response.json()  # Convert the response to a Python dictionary
     else:
+        input_logger.error(f"STATUS{response.status_code}")
         return {"places": []}  # Return an empty list in case of error or no data
     
 
@@ -103,31 +106,44 @@ def add_places_to_dict_parallel(input_logger,rows, key_column, value_column):
     input_logger.info(f"----------- Parallelism process returning Place API info for {key_column}s ---------")
     
     result = []
-    
-    # Define a function to process each row
+    lock = Lock()
     def process_row(row):
         address = row[key_column]
         premisesid = row[value_column]
-        places_data = places_api_call(address)
-        places = places_data.get("places", [])
-        
-        if places:
-            place_info = places[0]
-            result.append({
-                "full_address": address,
-                "premisesid": premisesid,
-                "g_place_id": place_info.get("id", "Missing"),
-                "g_formatted_address": place_info.get("formattedAddress", "Missing"),
-                "g_business_status": place_info.get("businessStatus","Missing"),
-            })
+        try:
+            places_data = places_api_call(address,input_logger)
+            places = places_data.get("places", [])
+            
+            if places:
+                with lock:  
+                    place_info = places[0]
+                    result.append({
+                        "full_address": address,
+                        "premisesid": premisesid,
+                        "g_place_id": place_info.get("id", "Missing"),
+                        "g_formatted_address_1": place_info.get("formattedAddress", "Missing"),
+                        "g_business_status_1": place_info.get("businessStatus","Missing"),
+                        "api_call_date": pd.to_datetime(datetime.datetime.now())
+                    })
+            else:
+                input_logger.warning(f"No place info for {address}")
+        except Exception as e:
+            input_logger.error(f"Error processing {address}: {e}")
 
-    # Use ThreadPoolExecutor for parallelism
-    with ThreadPoolExecutor(max_workers=20) as executor:
+    with ThreadPoolExecutor(max_workers=3) as executor:
         executor.map(process_row, rows)
+        if not result:  
+            input_logger.error(f"Result list is empty - no places_info")
 
-    df = pd.DataFrame(result)
-    df["g_business_status"] = df["g_business_status"].fillna("").str.lower()
-    return df
+    if result:
+        df = pd.DataFrame(result)
+        input_logger.info(f"DataFrame created with {len(df)} rows.")
+    else:
+        input_logger.error("Result list is empty. No data added to DataFrame.")
+        df = pd.DataFrame()
+    input_logger.info("Parallel processing of API calls completed.")
+
+            
 
 
 def upload_df_to_gcs(input_logger,bucket_name,directory,df,df_name,extension):
@@ -175,6 +191,7 @@ def main():
 
     df = add_places_to_dict_parallel(logger,address_premid,columns[0],columns[1])
     
+    print("Input bucketname: ")
     bucket_name = input() #USE ENVIRONMENT VARIABLE
     dir = "RAW"
     df_name = "places_api_results"
