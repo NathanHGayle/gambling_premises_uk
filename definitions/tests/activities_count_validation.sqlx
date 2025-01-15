@@ -1,0 +1,6 @@
+config {
+    type: "assertion"
+}
+
+-- File name is activities_count_validation.sqlx
+
