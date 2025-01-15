@@ -1,0 +1,33 @@
+config {
+    type: "assertion"
+}
+
+  -- File name is total_premises_metric_validation.sqlx
+
+WITH
+  total_premises AS(
+  SELECT
+    COUNT(premisesid) AS dim_p_total_premises,
+    COUNT(DISTINCT constituency_name) AS dim_p_count_con
+  FROM
+    ${ref("dim_premises")}
+  WHERE constituency_name IS NOT NULL
+  ),
+
+  total_premises_metric AS(
+  SELECT
+    SUM(total_premises) AS con_met_total_premises,
+    COUNT(DISTINCT constituency_name) AS con_met_count_con
+  FROM
+    ${ref("constituency_metrics")} 
+  )
+
+
+SELECT *  FROM total_premises_metric  tpm
+LEFT JOIN total_premises tp ON tp.dim_p_total_premises = tpm.con_met_total_premises
+WHERE tp.dim_p_total_premises IS NULL 
+
+-- -- View metrics
+-- SELECT *, 'dim' AS col FROM total_premises
+-- UNION ALL 
+-- SELECT *, 'metr' AS col FROM total_premises_metric

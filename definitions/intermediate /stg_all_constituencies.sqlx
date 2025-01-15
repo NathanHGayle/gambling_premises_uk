@@ -4,24 +4,58 @@ config {
         constituencyid: "The hashed uniqueid for each Constituency",
         onsconstid: "The natural uniqueid for each Constituency",
         constituency_name: "The name of the Constituency"
-        },
+    },
     assertions: {
         uniqueKey: ["constituencyid"]
     }
 }
 
   -- File is named stg_all_constituencies.sqlx
+WITH nsec AS(
+  SELECT
+  DISTINCT
+    constituencyid,
+    onsconstid,
+    constituency_name,
+    SHA1(TRIM(constituency_name)) AS constituencyid_default
+  FROM
+    ${ref("src_national_socio_economic_class")} 
+),
 
-SELECT
-  constituencyid,
-  onsconstid,
-  constituency_name
-FROM  ${ref("src_national_socio_economic_class")} 
- 
+
+dep AS(
+  SELECT
+  DISTINCT
+    constituencyid,
+    onsconstid,
+    constituency_name,
+    SHA1(TRIM(constituency_name)) AS constituencyid_default
+  FROM
+    ${ref("src_deprivation_by_constituencies")} 
+  ),
+
+
+post AS (
+  SELECT
+    COALESCE(nsec.constituencyid,dep.constituencyid,post.constituencyid_default) AS constituencyid,
+    COALESCE(nsec.onsconstid,dep.onsconstid,post.onsconstid_default) AS onsconstid,
+    post.constituencyid_default,
+    post.onsconstid_default,
+    post.constituency_name
+  FROM
+    ${ref("src_postcodes")} post
+
+  LEFT JOIN nsec ON nsec.constituencyid_default = post.constituencyid_default
+  LEFT JOIN dep ON dep.constituencyid_default = post.constituencyid_default
+  WHERE post.constituency_name IS NOT NULL
+)
+
+
+
+SELECT constituencyid, onsconstid, constituency_name FROM nsec
 UNION DISTINCT
+SELECT constituencyid, onsconstid, constituency_name FROM dep
+UNION DISTINCT
+SELECT constituencyid, onsconstid, constituency_name FROM post
 
-SELECT
-  constituencyid,
-  onsconstid,
-  constituency_name
-FROM  ${ref("src_deprivation_by_constituencies")} 
+
