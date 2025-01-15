@@ -4,7 +4,6 @@ config {
         constituencyid: "The hashed uniqueid for each Constituency",
         onsconstid: "The natural uniqueid for each Constituency",
         constituency_name: "The name of the Constituency",
-        constituency_nameid: "The hashed name of the Constituency",
         total_premises: "The distinct count of all gambling full addresses (premisesid) by constituency",
         total_betting_shops_licences: "The total betting shop activity liscences referenced",
         total_adult_gaming_centre_licences: "The total adult gaming centre activity liscences referenced",
@@ -39,9 +38,11 @@ config {
 }
 -- File name is constituency_metrics.sqlx
 
+-- This needs to be checked for duplictes!
 WITH grouped_prem_with_licences AS(
 SELECT
     dp.constituency_name,
+    dp.constituencyid_default,
     COUNT(DISTINCT dp.premisesid) AS total_premises,
     SUM(plg.betting_shop) AS total_betting_shops_licences,
     SUM(plg.adult_gaming_centre) AS total_adult_gaming_centre_licences,
@@ -52,15 +53,14 @@ SELECT
     SUM(plg.total_licenced_activities) AS total_licenced_activities
 FROM ${ref("dim_premises")} dp
     LEFT JOIN ${ref("stg_premises_liscences_grouped")} plg USING(premisesid)
-GROUP BY constituency_name
+WHERE constituency_name IS NOT NULL
+GROUP BY constituency_name, constituencyid_default
 )
-
 
 SELECT
     ac.constituencyid,
     ac.onsconstid,
     ac.constituency_name,
-    SHA1(TRIM(ac.constituency_name)) AS constituency_nameid,
     gpl.total_premises,
     gpl.total_betting_shops_licences,
     gpl.total_adult_gaming_centre_licences,
@@ -89,4 +89,4 @@ SELECT
 FROM ${ref("stg_all_constituencies")} ac 
     LEFT JOIN ${ref("dim_deprivation")} d ON ac.constituencyid = d.constituencyid
     LEFT JOIN ${ref("fact_national_socio_economic_class")} n ON ac.constituencyid = n.constituencyid
-    LEFT JOIN grouped_prem_with_licences gpl ON SHA1(TRIM(ac.constituency_name)) = SHA1(TRIM(ac.constituency_name))  
+    LEFT JOIN grouped_prem_with_licences gpl ON TRIM(ac.constituency_name) = TRIM(gpl.constituency_name)  

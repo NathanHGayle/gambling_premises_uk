@@ -1,0 +1,14 @@
+config {
+    type: "assertion"
+}
+
+  -- File name is places_api_business_status_acceptable_values.sqlx
+SELECT
+  *
+FROM
+  ${ref("src_raw_places_api")}
+WHERE
+  g_business_status NOT IN ( 'closed_permanently',
+    'closed_temporarily',
+    'operational',
+    'missing')

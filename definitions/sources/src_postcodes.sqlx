@@ -8,6 +8,8 @@ config {
         longitude: "The longitude coordinates of the postcode",
         postcode_district: "The broader district that the postcode belongs to",
         constituency_name: "The name of the Constituency",
+        constituencyid_default : "Surrogate ID for constituencyid",
+        onsconstid_default: "Surrogate ID for onsconstid"
     },
     assertions: {
     uniqueKey: ["postcodeid"]
@@ -22,6 +24,8 @@ config {
     latitude,
     longitude,
     postcode_district,
-    TRIM(constituency) AS constituency_name
+    TRIM(constituency) AS constituency_name,
+    SHA1(TRIM(constituency)) AS constituencyid_default,
+    TRIM(constituency) AS onsconstid_default
   FROM
     `gambling-premises-data.silver_ew.clean_postcodes` 

@@ -13,7 +13,9 @@ config {
         latitude: "The latitude coordinates of the postcode",
         longitude: "The longitude coordinates of the postcode",
         postcode_district: "The broader district that the postcode belongs to",
-        constituency_name: "The name of the Constituency"
+        constituency_name: "The name of the Constituency",
+        constituencyid_default : "Surrogate ID for constituencyid",
+        onsconstid_default: "Surrogate ID for onsconstid"
     },
     assertions: {
     uniqueKey: ["premisesid"]
@@ -48,7 +50,9 @@ SELECT
     c.latitude,
     c.longitude,
     c.postcode_district,
-    c.constituency_name
+    c.constituency_name,
+    c.constituencyid_default,
+    c.onsconstid_default
 FROM d_prem p
 LEFT JOIN ${ref("src_postcodes")} c USING(postcodeid)
 WHERE row = 1

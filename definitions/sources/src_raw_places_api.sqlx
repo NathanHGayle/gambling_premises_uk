@@ -1,0 +1,22 @@
+config {
+    type: "view",
+    columns: {
+        premisesid: "The hashed concatenated address fields",
+        full_address: "The concatenated full address of the premises",
+        g_place_id: "Place IDs uniquely identify a place in the Google Places database and on Google Maps",
+        g_formatted_address: "The human-readable address of this location and can be obtained via a partial match for street address that do not exist within the locality of the passed request",
+        g_business_status: "The business status of a place: 'closed_permanently', 'closed_temporarily', 'operational' or, the custom imputation, 'missing'",
+        api_call_date: "The timestamp of the API call"
+    },      assertions: {
+    uniqueKey: ["premisesid"]
+    }
+}
+-- File name is src_raw_places_api.sqlx
+SELECT 
+premisesid,
+full_address,
+g_place_id,
+g_formatted_address,
+LOWER(g_business_status) AS g_business_status,
+api_call_date
+FROM `gambling-premises-data.silver_ew.raw_google_places` 

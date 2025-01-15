@@ -1,0 +1,43 @@
+config {
+    type: "incremental",
+    columns: {
+        premisesid: "The hashed concatenated address fields",
+        full_address: "The concatenated full address of the premises",
+        g_place_id: "Place IDs uniquely identify a place in the Google Places database and on Google Maps",
+        g_formatted_address: "The human-readable address of this location and can be obtained via a partial match for street address that do not exist within the locality of the passed request",
+        g_business_status: "The business status of a place: 'closed_permanently', 'closed_temporarily', 'operational' or, the custom imputation, 'missing'",
+        api_call_date: "The timestamp of the API call"
+    },      assertions: {
+    uniqueKey: ["premisesid"]
+    }
+}
+-- File name is dim_gbusiness_status.sqlx
+SELECT
+premisesid,
+full_address,
+g_place_id,
+g_formatted_address,
+g_business_status,
+api_call_date
+FROM ${ref("src_raw_places_api")} new_data 
+
+${when(
+    incremental(),
+    `WHERE (
+        -- Check if the new_data  api_call_date is more recent than the existing one for the same premisesid
+        new_data .api_call_date > (
+            SELECT COALESCE(MAX(existing.api_call_date), '1900-01-01')
+            FROM ${self()} AS existing
+            WHERE existing.premisesid = new_data .premisesid AND existing.g_place_id = new_data .g_place_id
+        )
+        -- AND if the g_business_status has changed
+        AND new_data .g_business_status != (
+            SELECT existing.g_business_status
+            FROM ${self()} AS existing
+            WHERE existing.premisesid = new_data .premisesid AND existing.g_place_id = new_data .g_place_id
+            ORDER BY existing.api_call_date DESC
+            LIMIT 1
+        )
+    )`,
+    ""
+)}
