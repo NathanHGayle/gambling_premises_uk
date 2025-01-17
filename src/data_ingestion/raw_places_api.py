@@ -10,7 +10,7 @@ from threading import Lock
 from src.utils.custom_logger import setup_logger
 
 
-def read_columns_to_dict_bq(input_logger,table, columns):
+def read_columns_to_dict_bq(input_logger,table, columns, where_clause=None):
     """
     Reads specified columns from a BigQuery table and returns the data as a list of dictionaries.
 
@@ -18,12 +18,13 @@ def read_columns_to_dict_bq(input_logger,table, columns):
         input_logger (logging.Logger): Logger instance for logging information.
         table (str): Full name of the BigQuery table in the format `project.dataset.table`.
         columns (list): List of column names to retrieve.
+        where_clause (str, optional): Optional SQL WHERE clause to filter results.
 
     Returns:
-    list: A list of dictionaries where each dictionary represents a row from the table.
-
+        list: A list of dictionaries where each dictionary represents a row from the table.
     """
-    input_logger.info("----------- Reading Big Query Table Columns to Dict ---------")
+    input_logger.info("----------- Reading BigQuery Table Columns to Dict ---------")
+
     # Construct a BigQuery client object
     client = bigquery.Client()
 
@@ -31,26 +32,30 @@ def read_columns_to_dict_bq(input_logger,table, columns):
     if not columns:
         raise ValueError("At least one column must be specified.")
 
-    # Dynamically format the column names
-    column_string = ", ".join(columns)  # Join column names with commas
-
-    # Add backticks around the table name to handle special characters
+    # Format the column names
+    column_string = ", ".join(columns)
     table_with_backticks = f"`{table}`"
 
-    # Construct the query
+    # Construct the base query
     query = f"""
-        SELECT 
-            {column_string}
-        FROM 
-            {table_with_backticks}
+        SELECT DISTINCT {column_string}
+        FROM {table_with_backticks}
     """
 
-    # Execute the query
-    query_job = client.query(query)  # Make an API request
+    # Append WHERE clause if provided
+    if where_clause:
+        query += f" WHERE {where_clause}"
 
-    # Collect and return the results
-    results = query_job.result()
-    return [dict(row) for row in results]  # Convert rows to dictionaries
+    input_logger.info(f"Executing Query: {query}")
+
+    try:
+        # Execute the query
+        query_job = client.query(query)
+        results = query_job.result()
+        return [dict(row) for row in results]
+    except Exception as e:
+        input_logger.error(f"Query failed: {e}")
+        raise
 
 
 def places_api_call(full_address, input_logger):
@@ -143,20 +148,20 @@ def add_places_to_dict_parallel(input_logger, rows, key_column, value_column, ma
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         executor.map(process_row, rows)
-        if not result:
+    if not result:
             input_logger.error(f"Result list is empty - no places_info")
 
     if result:
         df = pd.DataFrame(result)
+        df.to_csv("local_copy_places_api_results.csv")
         input_logger.info(f"DataFrame created with {len(df)} rows.")
+        input_logger.info("Parallel processing of API calls completed.")
+        return df
     else:
         input_logger.error("Result list is empty. No data added to DataFrame.")
-        df = pd.DataFrame()
-    input_logger.info("Parallel processing of API calls completed.")
-
-
-            
-
+        input_logger.info("Parallel processing of API calls completed.")
+        return None
+    
 
 def upload_df_to_gcs(input_logger,bucket_name,directory,df,df_name,extension):
     """
@@ -178,19 +183,18 @@ def upload_df_to_gcs(input_logger,bucket_name,directory,df,df_name,extension):
     bucket = storage_client.bucket(bucket_name)
     gcs_path = os.path.join(directory,f"{df_name}{extension}").replace("\\", "/")
 
-    # Save the responses dict to a JSON file in-memory
-    if df is not None:
-        try:
-            # Create a blob in GCS and upload the JSON data
-            blob = bucket.blob(gcs_path)
-            csv_data = df.to_csv(index=False) 
-            blob.upload_from_string(csv_data, content_type="text/csv")
-            print("File has been uploaded to GCS")
-        except Exception as e:
-            print(f"File was not saved to Google Cloud Storage: {e}")
-    else:
-        print(f"{df_name} dataFrame is None")
-    return None 
+    if df is None:
+        input_logger.error(f"{df_name} dataFrame is None")
+        return None 
+    try:
+        # Create a blob in GCS and upload the JSON data
+        blob = bucket.blob(gcs_path)
+        csv_data = df.to_csv(index=False) 
+        blob.upload_from_string(csv_data, content_type="text/csv")
+        input_logger.info("File has been uploaded to GCS")
+        return df
+    except Exception as e:
+            input_logger.error(f"File was not saved to Google Cloud Storage: {e}") 
 
 
 def main():
@@ -209,8 +213,7 @@ def main():
     df_name = "places_api_results"
     extension = ".csv"
 
-    upload_df_to_gcs(logger,bucket_name,dir,df,df_name,extension)
-
+    df = upload_df_to_gcs(logger,bucket_name,dir,df,df_name,extension)
 
 if __name__ == "__main__":
         main()
