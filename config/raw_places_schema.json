@@ -1,8 +1,0 @@
-[
-    {"name": "full_address", "type": "STRING"},
-    {"name": "premisesid", "type": "STRING"},
-    {"name": "g_place_id", "type": "STRING"},
-    {"name": "g_formatted_address", "type": "STRING"},
-    {"name": "g_business_status", "type": "STRING"}
-  ]
-  

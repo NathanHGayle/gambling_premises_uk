@@ -143,11 +143,6 @@ def main():
     
     local_council_json = webscrape_local_council(logger, list_of_postcodes= postcodes_list)
     
-    # # Alternative - loading data from local storage
-    # test_json = 'C:\\Users\\natha\PycharmProjects\\gambling_premises_uk\\notebooks\\missing_local_authorities.json'
-    # with open(test_json, 'r') as file:
-    #     local_council_json = json.load(file)
-
     upload_to_gcs(logger,bucket_name= bucketname,
                   json_file=local_council_json,
                   gcs_path="RAW/local_authorities.json") 
