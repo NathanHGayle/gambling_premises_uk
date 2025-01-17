@@ -5,3 +5,4 @@
 .venv/
 .vscode/
 /logs/data_cleaning.log
+/src/utils/__pycache__/
