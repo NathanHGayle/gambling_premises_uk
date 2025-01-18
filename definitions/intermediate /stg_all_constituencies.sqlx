@@ -57,5 +57,7 @@ UNION DISTINCT
 SELECT constituencyid, onsconstid, constituency_name FROM dep
 UNION DISTINCT
 SELECT constituencyid, onsconstid, constituency_name FROM post
-
+UNION DISTINCT
+SELECT SHA1("Missing") AS constituencyid, "Missing" AS onsconstid, "Missing" AS constituency_name 
+  
 

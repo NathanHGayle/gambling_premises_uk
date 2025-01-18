@@ -50,9 +50,9 @@ SELECT
     c.latitude,
     c.longitude,
     c.postcode_district,
-    c.constituency_name,
-    c.constituencyid_default,
-    c.onsconstid_default
+    COALESCE(c.constituency_name,"Missing") AS constituency_name,
+    COALESCE(c.constituencyid_default,SHA1("Missing")) AS constituencyid_default,
+    COALESCE(c.onsconstid_default,"Missing") AS onsconstid_default 
 FROM d_prem p
 LEFT JOIN ${ref("src_postcodes")} c USING(postcodeid)
 WHERE row = 1

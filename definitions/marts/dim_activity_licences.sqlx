@@ -18,3 +18,5 @@ SELECT
     activity
 FROM ${ref("src_premises_licence_register")} 
 
+-- It is possible for multiple accounts to have the same activity at the same address 
+-- The raw relationship between activities and addresses is many-to-many

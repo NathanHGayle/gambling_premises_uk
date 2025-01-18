@@ -1,33 +1,27 @@
 config {
-    type: "assertion"
+  type: "assertion",
+  name: "total_premises_metric_validation",
+  description: "Validates that total premises and constituency counts match between dim_premises and constituency_metrics."
 }
 
-  -- File name is total_premises_metric_validation.sqlx
-
-WITH
-  total_premises AS(
+WITH total_premises AS (
   SELECT
-    COUNT(premisesid) AS dim_p_total_premises,
-    COUNT(DISTINCT constituency_name) AS dim_p_count_con
-  FROM
-    ${ref("dim_premises")}
+    COUNT(premisesid) AS total_premises
+  FROM ${ref("dim_premises")}
   WHERE constituency_name IS NOT NULL
-  ),
+),
 
-  total_premises_metric AS(
+total_premises_metric AS (
   SELECT
-    SUM(total_premises) AS con_met_total_premises,
-    COUNT(DISTINCT constituency_name) AS con_met_count_con
-  FROM
-    ${ref("constituency_metrics")} 
-  )
+    SUM(total_premises) AS total_premises
+  FROM ${ref("constituency_metrics")}
+)
 
+-- Direct comparison of aggregated values
+SELECT * 
+FROM total_premises
 
-SELECT *  FROM total_premises_metric  tpm
-LEFT JOIN total_premises tp ON tp.dim_p_total_premises = tpm.con_met_total_premises
-WHERE tp.dim_p_total_premises IS NULL 
+EXCEPT DISTINCT
 
--- -- View metrics
--- SELECT *, 'dim' AS col FROM total_premises
--- UNION ALL 
--- SELECT *, 'metr' AS col FROM total_premises_metric
+SELECT * 
+FROM total_premises_metric

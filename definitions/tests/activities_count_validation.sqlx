@@ -1,6 +1,26 @@
 config {
-    type: "assertion"
+  type: "assertion",
+  name: "activities_count_validation",
+  description: "Validates that the total number of premises licences matches the total licenced activities."
 }
 
--- File name is activities_count_validation.sqlx
+WITH src AS (
+  SELECT
+    COUNT(premises_licenceid) AS total_licences
+  FROM ${ref("src_premises_licence_register")}
+),
 
+upstream AS (
+  SELECT 
+    SUM(total_licenced_activities) AS total_licences
+  FROM ${ref("constituency_metrics")}
+)
+
+-- Directly compare the aggregated totals
+SELECT * 
+FROM src
+
+EXCEPT DISTINCT
+
+SELECT * 
+FROM upstream

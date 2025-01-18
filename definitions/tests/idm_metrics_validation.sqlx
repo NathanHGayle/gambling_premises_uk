@@ -1,0 +1,40 @@
+config {
+  type: "assertion",
+  name: "idm_metrics_validation",
+  description: "Validates that src_deprivation_by_constituencies matches constituency_metrics."
+}
+
+WITH src AS (
+  SELECT 
+    SUM(imd_rank_2019) AS imd_rank_2019,
+    SUM(income) AS income,
+    SUM(employment) AS employment,
+    SUM(education_skills_and_training) AS education_skills_and_training,
+    SUM(health_deprivation_and_disability) AS health_deprivation_and_disability,
+    SUM(crime) AS crime,
+    SUM(barriers_to_housing_and_services) AS barriers_to_housing_and_services,
+    SUM(living_environment) AS living_environment
+  FROM ${ref("src_deprivation_by_constituencies")}
+),
+
+upstream AS (
+  SELECT 
+    SUM(imd_rank_2019) AS imd_rank_2019,
+    SUM(income) AS income,
+    SUM(employment) AS employment,
+    SUM(education_skills_and_training) AS education_skills_and_training,
+    SUM(health_deprivation_and_disability) AS health_deprivation_and_disability,
+    SUM(crime) AS crime,
+    SUM(barriers_to_housing_and_services) AS barriers_to_housing_and_services,
+    SUM(living_environment) AS living_environment
+  FROM ${ref("constituency_metrics")}
+)
+
+-- Compare aggregated results from both sources
+SELECT *
+FROM src
+
+EXCEPT DISTINCT
+
+SELECT *
+FROM upstream
