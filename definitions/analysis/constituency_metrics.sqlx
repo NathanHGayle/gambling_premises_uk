@@ -5,6 +5,9 @@ config {
         onsconstid: "The natural uniqueid for each Constituency",
         constituency_name: "The name of the Constituency",
         total_premises: "The distinct count of all gambling full addresses (premisesid) by constituency",
+        total_operational_premises: "The distinct count of all gambling full addresses (premisesid) by constituency where google api returned 'operation' - caveat: validation required",
+        total_closed_permanently_premises: "The distinct count of all gambling full addresses (premisesid) by constituency where google api returned 'closed_permanently' - caveat:  validation required",
+        total_closed_temporarily_premises: "The distinct count of all gambling full addresses (premisesid) by constituency where google api returned 'closed_temporarily' - caveat:  validation required",
         total_betting_shops_licences: "The total betting shop activity liscences referenced",
         total_adult_gaming_centre_licences: "The total adult gaming centre activity liscences referenced",
         total_bingo_licences: "The total bingo activity liscences referenced",
@@ -50,9 +53,13 @@ SELECT
     SUM(plg.missing) AS total_missing_licences,
     SUM(plg.family_entertainment_centre) AS total_family_entertainment_centre_licences ,
     SUM(plg.casino) AS total_casino_licences,
-    SUM(plg.total_licenced_activities) AS total_licenced_activities
+    SUM(plg.total_licenced_activities) AS total_licenced_activities,
+    COUNT(DISTINCT CASE WHEN gapi.g_business_status = "operational" THEN dp.premisesid END) AS total_operational_premises,
+    COUNT(DISTINCT CASE WHEN gapi.g_business_status = "closed_permanently" THEN dp.premisesid END) AS total_closed_permanently_premises,
+    COUNT(DISTINCT CASE WHEN gapi.g_business_status = "closed_temporarily" THEN dp.premisesid END) AS total_closed_temporarily_premises
 FROM ${ref("dim_premises")} dp
     LEFT JOIN ${ref("stg_premises_liscences_grouped")} plg USING(premisesid)
+    LEFT JOIN ${ref("dim_gbusiness_status")} gapi USING(premisesid)
 WHERE constituency_name IS NOT NULL
 GROUP BY constituency_name, constituencyid_default
 )
@@ -69,6 +76,9 @@ SELECT
     gpl.total_family_entertainment_centre_licences,
     gpl.total_casino_licences,
     gpl.total_licenced_activities,
+    gpl.total_operational_premises,
+    gpl.total_closed_permanently_premises,
+    gpl.total_closed_temporarily_premises,
     d.imd_rank_2019,
     d.income,
     d.employment,

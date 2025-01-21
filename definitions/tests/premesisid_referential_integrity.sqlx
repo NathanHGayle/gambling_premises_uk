@@ -1,0 +1,15 @@
+config {
+  type: "assertion",
+  name: "premesisid_referential_integrity",
+  description: "Ensures all foreign keys in the child table exist in the parent table."
+}
+
+SELECT
+  child_table.premisesid
+FROM
+  ${ref("src_raw_places_api")} AS child_table
+LEFT JOIN
+  ${ref("src_premises_licence_register")} AS parent_table
+  ON child_table.premisesid = parent_table.premisesid
+WHERE
+  parent_table.premisesid IS NULL

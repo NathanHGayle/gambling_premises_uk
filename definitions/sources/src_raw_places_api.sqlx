@@ -13,7 +13,7 @@ config {
 }
 -- File name is src_raw_places_api.sqlx
 SELECT 
-premisesid,
+SHA1(full_address) AS premisesid,
 full_address,
 g_place_id,
 g_formatted_address,
