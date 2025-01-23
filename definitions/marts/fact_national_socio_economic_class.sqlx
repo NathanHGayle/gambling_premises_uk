@@ -4,16 +4,7 @@ config {
         constituencyid: "The hashed uniqueid for each Constituency",
         onsconstid: "The natural uniqueid for each Constituency",
         constituency_name: "The name of the Constituency",
-        fulltime_students: "People over 16 who are engaged in full-time courses of study in secondary, tertiary or higher education institutions",
-        intermediate_occupations: "Positions in clerical, sales, service and intermediate technical occupations that do not involve general planning or supervisory powers",
-        intermediate_occupations_small_employers_and_own_account_workers: 'Small employers remain essentially in direct control of their enterprises',
-        managerial_administrative_and_professional_occupations_higher_managerial_administrative_and_professional_occupations: 'Positions in which there is a service relationship with the employer, and which involve general planning and supervision of operations on behalf of the employer',
-        managerial_administrative_and_professional_occupations_lower_managerial_administrative_and_professional_occupations: 'Positions that have an attenuated form of service relationship',
-        never_worked_longterm_unemployed: 'Positions that involve involuntary exclusion from the labour market, specifically: those who have never been in paid employment but would wish to be or those who have been unemployed for an extended period while still seeking or wanting work',
-        routine_and_manual_occupations_lower_supervisory_and_technical_occupations: 'Positions with a modified labour contract, in which employees are engaged in lower technical and related occupations',
-        routine_and_manual_occupations_routine_occupations: 'Positions with a basic labour contract, in which employees are engaged in routine occupations',
-        routine_and_manual_occupations_semiroutine_occupations: 'Positions with a slightly modified labour contract, in which employees are engaged in semi-routine occupations'
-    },
+            },
     assertions: {
         uniqueKey: ["constituencyid"]
     }
@@ -27,7 +18,7 @@ WITH
     constituencyid,
     onsconstid,
     constituency_name,
-    group_variable,
+    `groups`,
     con_num
   FROM
     ${ref("src_national_socio_economic_class")} )
@@ -37,12 +28,8 @@ SELECT
 FROM
   basePivot
 PIVOT
-  ( SUM(con_num) FOR LOWER(group_variable) IN( 'fulltime_students',
+  ( SUM(con_num) FOR LOWER(`groups`) IN( 'managerial_administrative_and_professional_occupations',
       'intermediate_occupations',
-      'intermediate_occupations_small_employers_and_own_account_workers',
-      'managerial_administrative_and_professional_occupations_higher_managerial_administrative_and_professional_occupations',
-      'managerial_administrative_and_professional_occupations_lower_managerial_administrative_and_professional_occupations',
+      'routine_and_manual_occupations',
       'never_worked_longterm_unemployed',
-      'routine_and_manual_occupations_lower_supervisory_and_technical_occupations',
-      'routine_and_manual_occupations_routine_occupations',
-      'routine_and_manual_occupations_semiroutine_occupations' ) )
+      'fulltime_students') )

@@ -18,11 +18,7 @@ FROM UNNEST([
   'constituency_name',
   'fulltime_students',
   'intermediate_occupations',
-  'intermediate_occupations_small_employers_and_own_account_workers',
-  'managerial_administrative_and_professional_occupations_higher_managerial_administrative_and_professional_occupations',
-  'managerial_administrative_and_professional_occupations_lower_managerial_administrative_and_professional_occupations',
-  'never_worked_longterm_unemployed',
-  'routine_and_manual_occupations_lower_supervisory_and_technical_occupations',
-  'routine_and_manual_occupations_routine_occupations',
-  'routine_and_manual_occupations_semiroutine_occupations'
+  'managerial_administrative_and_professional_occupations',
+  'routine_and_manual_occupations',
+  'never_worked_longterm_unemployed'
 ]) AS column_name

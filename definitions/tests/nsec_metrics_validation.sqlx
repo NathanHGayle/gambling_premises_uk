@@ -8,28 +8,20 @@ WITH src AS (
   SELECT 
     SUM(fulltime_students) AS fulltime_students,
     SUM(intermediate_occupations) AS intermediate_occupations,
-    SUM(intermediate_occupations_small_employers_and_own_account_workers) AS intermediate_occupations_small_employers_and_own_account_workers,
-    SUM(managerial_administrative_and_professional_occupations_higher_managerial_administrative_and_professional_occupations) AS managerial_administrative_and_professional_occupations_higher_managerial_administrative_and_professional_occupations,
-    SUM(managerial_administrative_and_professional_occupations_lower_managerial_administrative_and_professional_occupations) AS managerial_administrative_and_professional_occupations_lower_managerial_administrative_and_professional_occupations,
-    SUM(never_worked_longterm_unemployed) AS never_worked_longterm_unemployed,
-    SUM(routine_and_manual_occupations_lower_supervisory_and_technical_occupations) AS routine_and_manual_occupations_lower_supervisory_and_technical_occupations,
-    SUM(routine_and_manual_occupations_routine_occupations) AS routine_and_manual_occupations_routine_occupations,
-    SUM(routine_and_manual_occupations_semiroutine_occupations) AS routine_and_manual_occupations_semiroutine_occupations 
-  FROM ${ref("fact_national_socio_economic_class")}
+    SUM(managerial_administrative_and_professional_occupations) AS managerial_administrative_and_professional_occupations,
+    SUM(routine_and_manual_occupations) AS routine_and_manual_occupations,
+    SUM(never_worked_longterm_unemployed) AS never_worked_longterm_unemployed
+     FROM ${ref("fact_national_socio_economic_class")}
 ),
 
 upstream AS (
   SELECT 
-SUM(fulltime_students) AS fulltime_students,
+    SUM(fulltime_students) AS fulltime_students,
     SUM(intermediate_occupations) AS intermediate_occupations,
-    SUM(intermediate_occupations_small_employers_and_own_account_workers) AS intermediate_occupations_small_employers_and_own_account_workers,
-    SUM(managerial_administrative_and_professional_occupations_higher_managerial_administrative_and_professional_occupations) AS managerial_administrative_and_professional_occupations_higher_managerial_administrative_and_professional_occupations,
-    SUM(managerial_administrative_and_professional_occupations_lower_managerial_administrative_and_professional_occupations) AS managerial_administrative_and_professional_occupations_lower_managerial_administrative_and_professional_occupations,
-    SUM(never_worked_longterm_unemployed) AS never_worked_longterm_unemployed,
-    SUM(routine_and_manual_occupations_lower_supervisory_and_technical_occupations) AS routine_and_manual_occupations_lower_supervisory_and_technical_occupations,
-    SUM(routine_and_manual_occupations_routine_occupations) AS routine_and_manual_occupations_routine_occupations,
-    SUM(routine_and_manual_occupations_semiroutine_occupations) AS routine_and_manual_occupations_semiroutine_occupations
-  FROM ${ref("constituency_metrics")}
+    SUM(managerial_administrative_and_professional_occupations) AS managerial_administrative_and_professional_occupations,
+    SUM(routine_and_manual_occupations) AS routine_and_manual_occupations,
+    SUM(never_worked_longterm_unemployed) AS never_worked_longterm_unemployed
+FROM ${ref("constituency_metrics")}
 )
 
 -- Compare aggregated results from both sources

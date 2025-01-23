@@ -33,8 +33,8 @@ SELECT
   onsconstid,
   constituency_name,
   REPLACE(REPLACE(REPLACE(REPLACE(group_variable,',',''),' / ','_'),'-',''),' ','_') AS group_variable,
-  variables,
-  `groups`,
+  REPLACE(REPLACE(REPLACE(REPLACE(variables,',',''),' / ','_'),'-',''),' ','_') AS variable,
+  REPLACE(REPLACE(REPLACE(REPLACE(`groups`,',',''),' / ','_'),'-',''),' ','_') AS `groups`,
   con_num
 FROM
   nsec
