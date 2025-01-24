@@ -32,6 +32,7 @@ PIVOT
       'lower_managerial_administrative_and_professional_occupations',
       'small_employers_and_own_account_workers',
       'lower_supervisory_and_technical_occupations',
+      'intermediate_occupations', 
       'semiroutine_occupations',
       'routine_occupations',
       'never_worked_longterm_unemployed',
