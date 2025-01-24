@@ -4,5 +4,6 @@
 /src/data_ingestion/__pycache__/
 .venv/
 .vscode/
+/logs/
 /logs/data_cleaning.log
 /src/utils/__pycache__/
