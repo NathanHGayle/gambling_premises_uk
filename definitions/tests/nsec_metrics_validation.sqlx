@@ -6,21 +6,22 @@ config {
 
 WITH src AS (
   SELECT 
-    SUM(fulltime_students) AS fulltime_students,
-    SUM(intermediate_occupations) AS intermediate_occupations,
-    SUM(managerial_administrative_and_professional_occupations) AS managerial_administrative_and_professional_occupations,
-    SUM(routine_and_manual_occupations) AS routine_and_manual_occupations,
-    SUM(never_worked_longterm_unemployed) AS never_worked_longterm_unemployed
-     FROM ${ref("fact_national_socio_economic_class")}
+    ROUND(SUM(fulltime_students),2) AS fulltime_students,
+    ROUND(SUM(intermediate_occupations),2) AS intermediate_occupations,
+    ROUND(SUM(managerial_administrative_and_professional_occupations),2) AS managerial_administrative_and_professional_occupations,
+    ROUND(SUM(routine_and_manual_occupations),2) AS routine_and_manual_occupations,
+    ROUND(SUM(never_worked_longterm_unemployed),2) AS never_worked_longterm_unemployed
+  FROM ${ref("fact_national_socio_economic_class")}
+  WHERE constituency_name IS NOT NULL
 ),
 
 upstream AS (
   SELECT 
-    SUM(fulltime_students) AS fulltime_students,
-    SUM(intermediate_occupations) AS intermediate_occupations,
-    SUM(managerial_administrative_and_professional_occupations) AS managerial_administrative_and_professional_occupations,
-    SUM(routine_and_manual_occupations) AS routine_and_manual_occupations,
-    SUM(never_worked_longterm_unemployed) AS never_worked_longterm_unemployed
+    ROUND(SUM(fulltime_students),2) AS fulltime_students,
+    ROUND(SUM(intermediate_occupations),2) AS intermediate_occupations,
+    ROUND(SUM(managerial_administrative_and_professional_occupations),2) AS managerial_administrative_and_professional_occupations,
+    ROUND(SUM(routine_and_manual_occupations),2) AS routine_and_manual_occupations,
+    ROUND(SUM(never_worked_longterm_unemployed),2) AS never_worked_longterm_unemployed
 FROM ${ref("constituency_metrics")}
 )
 

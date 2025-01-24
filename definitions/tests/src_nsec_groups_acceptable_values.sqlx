@@ -4,12 +4,13 @@ config {
 
   -- File name is nsec_groups_acceptable_values.sqlx
 SELECT
-  *
+DISTINCT
+  `groups`
 FROM
   ${ref("src_national_socio_economic_class")}
 WHERE
-  `groups` NOT IN ( 'Routine and manual occupations',
-    'Managerial, administrative and professional occupations',
-    'Intermediate occupations',
-    'Never worked / long-term unemployed',
-    'Full-time students' )
+  `groups` NOT IN ( 'routine_and_manual_occupations',
+    'managerial_administrative_and_professional_occupations',
+    'intermediate_occupations',
+    'never_worked_longterm_unemployed',
+    'fulltime_students' )

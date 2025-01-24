@@ -4,16 +4,17 @@ config {
 
   -- File: nsec_variable_acceptable_values.sqlx
 SELECT
-  *
+DISTINCT
+  variable
 FROM
   ${ref("src_national_socio_economic_class")}
 WHERE
-  variables NOT IN ( 'Higher managerial, administrative and professional occupations',
-    'Lower managerial, administrative and professional occupations',
-    'Intermediate occupations',
-    'Small employers and own account workers',
-    'Lower supervisory and technical occupations',
-    'Semi-routine occupations',
-    'Routine occupations',
-    'Never worked / long-term unemployed',
-    'Full-time students' )
+  variable NOT IN ( 'higher_managerial_administrative_and_professional_occupations',
+    'lower_managerial_administrative_and_professional_occupations',
+    'intermediate_occupations',
+    'small_employers_and_own_account_workers',
+    'lower_supervisory_and_technical_occupations',
+    'semiroutine_occupations',
+    'routine_occupations',
+    'never_worked_longterm_unemployed',
+    'fulltime_students')

@@ -18,7 +18,7 @@ WITH
     constituencyid,
     onsconstid,
     constituency_name,
-    `groups`,
+    variable,
     con_pc
   FROM
     ${ref("src_national_socio_economic_class")} )
@@ -28,8 +28,12 @@ SELECT
 FROM
   basePivot
 PIVOT
-  ( SUM(con_pc) FOR LOWER(`groups`) IN( 'managerial_administrative_and_professional_occupations',
-      'intermediate_occupations',
-      'routine_and_manual_occupations',
+  ( SUM(con_pc) FOR LOWER(variable) IN( 'higher_managerial_administrative_and_professional_occupations',
+      'lower_managerial_administrative_and_professional_occupations',
+      'small_employers_and_own_account_workers',
+      'lower_supervisory_and_technical_occupations',
+      'semiroutine_occupations',
+      'routine_occupations',
       'never_worked_longterm_unemployed',
-      'fulltime_students') )
+      'fulltime_students') 
+    )

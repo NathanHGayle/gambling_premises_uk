@@ -25,11 +25,14 @@ config {
         living_environment: "measures the quality of the local environment. The indicators fall into two sub-domains. The 'indoors' living environment measures the quality of housing; while the 'outdoors' living environment contains measures of air quality and road traffic accidents",
         raw_dateofthisupdate: "The date this dataset was update at source",
         raw_dateofdataset: "The date of this datasets availability",
-        fulltime_students: "",
-        intermediate_occupations: "",
-        managerial_administrative_and_professional_occupations: "",
-        routine_and_manual_occupations: "",
-        never_worked_longterm_unemployed: ""
+        Higher_managerial_administrative_and_professional_occupations: "",
+        Lower_managerial_administrative_and_professional_occupations: "",
+        Small_employers_and_own_account_workers: "",
+        Lower_supervisory_and_technical_occupations: "",
+        Semiroutine_occupations: "",
+        Routine_occupations: "",
+        Never_worked_longterm_unemployed: "",
+        Fulltime_students: ""
             },
     assertions: {
         uniqueKey: ["constituencyid"]
@@ -81,12 +84,15 @@ SELECT
     d.crime,
     d.barriers_to_housing_and_services,
     d.living_environment,
-    n.fulltime_students,
-    n.intermediate_occupations,
-    n.managerial_administrative_and_professional_occupations,
-    n.routine_and_manual_occupations,
-    n.never_worked_longterm_unemployed
+    n.higher_managerial_administrative_and_professional_occupations,
+    n.lower_managerial_administrative_and_professional_occupations,
+    n.small_employers_and_own_account_workers,
+    n.lower_supervisory_and_technical_occupations,
+    n.semiroutine_occupations,
+    n.routine_occupations,
+    n.never_worked_longterm_unemployed,
+    n.fulltime_students
 FROM ${ref("stg_all_constituencies")} ac 
     LEFT JOIN ${ref("dim_deprivation")} d ON ac.constituencyid = d.constituencyid
-    LEFT JOIN ${ref("fact_national_socio_economic_class")} n ON ac.constituencyid = n.constituencyid
+    LEFT JOIN ${ref("fact_variable_national_socio_economic_class")} n ON ac.constituencyid = n.constituencyid
     LEFT JOIN grouped_prem_with_licences gpl ON TRIM(ac.constituency_name) = TRIM(gpl.constituency_name)  

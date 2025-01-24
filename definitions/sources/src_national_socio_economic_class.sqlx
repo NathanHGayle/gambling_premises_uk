@@ -7,7 +7,8 @@ config {
         group_variable: "Concatenation of the groups and variables columns",
         variables: "The lowest hierachy of socio-economic classification",
         groups: "The highest hierachy of socio-economic classification",
-        con_num: "The population of the constituency"
+        con_num: "The population of the constituency",
+        con_pc: "The percentage of the population of the constituency"
     }
 }
 
@@ -23,9 +24,10 @@ WITH
       ELSE CONCAT(LOWER(`groups`),'_',LOWER(variables))
   END
     AS group_variable,
-    variables,
-    `groups`,
-    con_num
+    LOWER(variables) AS variables,
+    LOWER(`groups`) AS `groups`,
+    con_num,
+    con_pc
   FROM
     `gambling-premises-data.silver_ew.clean_national_socio_economic_class` )
 SELECT
@@ -35,6 +37,7 @@ SELECT
   REPLACE(REPLACE(REPLACE(REPLACE(group_variable,',',''),' / ','_'),'-',''),' ','_') AS group_variable,
   REPLACE(REPLACE(REPLACE(REPLACE(variables,',',''),' / ','_'),'-',''),' ','_') AS variable,
   REPLACE(REPLACE(REPLACE(REPLACE(`groups`,',',''),' / ','_'),'-',''),' ','_') AS `groups`,
-  con_num
+  con_num,
+  con_pc
 FROM
   nsec
