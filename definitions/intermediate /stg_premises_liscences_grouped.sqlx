@@ -22,6 +22,7 @@ SUM(CASE WHEN activity = 'bingo'THEN 1 ELSE 0 END) AS bingo,
 SUM(CASE WHEN activity = 'missing' OR activity IS NULL THEN 1 ELSE 0 END) AS missing,
 SUM(CASE WHEN activity = 'family entertainment centre' THEN 1 ELSE 0 END) AS family_entertainment_centre ,
 SUM(CASE WHEN activity = 'casino' THEN 1 ELSE 0 END) AS casino,
+SUM(CASE WHEN activity = 'pool betting' THEN 1 ELSE 0 END) AS pool_betting,
 SUM(CASE WHEN activity IS NOT NULL THEN 1 ELSE 0 END) AS total_licenced_activities
 FROM ${ref("dim_activity_licences")} 
 GROUP BY premisesid, full_address
