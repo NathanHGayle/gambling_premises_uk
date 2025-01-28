@@ -87,8 +87,18 @@ SELECT
     n.intermediate_occupations,
     n.managerial_administrative_and_professional_occupations,
     n.routine_and_manual_occupations,
-    n.never_worked_longterm_unemployed
+    n.never_worked_longterm_unemployed,
+    n2.higher_managerial_administrative_and_professional_occupations,
+    n2.lower_managerial_administrative_and_professional_occupations,
+    n2.intermediate_occupations AS intermediate_occupations_v,
+    n2.small_employers_and_own_account_workers,
+    n2.lower_supervisory_and_technical_occupations,
+    n2.semiroutine_occupations,
+    n2.routine_occupations,
+    n2.never_worked_longterm_unemployed AS never_worked_longterm_unemployed_v,
+    n2.fulltime_students AS fulltime_students_v
 FROM ${ref("stg_all_constituencies")} ac 
     LEFT JOIN ${ref("dim_deprivation")} d ON ac.constituencyid = d.constituencyid
     LEFT JOIN ${ref("fact_national_socio_economic_class")} n ON ac.constituencyid = n.constituencyid
+    LEFT JOIN ${ref("fact_variable_national_socio_economic_class")} n2 ON ac.constituencyid = n2.constituencyid
     LEFT JOIN grouped_prem_with_licences gpl ON TRIM(ac.constituency_name) = TRIM(gpl.constituency_name)  
