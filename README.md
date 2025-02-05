@@ -11,7 +11,6 @@ The correlations are problematic, and arguements have been made that they point 
 + [Get More Football Clubs Onboard](https://www.change.org/p/end-gambling-advertising-and-sponsorship-in-football)
 
 ### Organisations
-* [Gamble Aware](https://www.gambleaware.org/what-we-do/what-we-fund/funded-programmes-and-commissioning/)
 * [Gambling With Lives](https://www.gamblingwithlives.org/)
 * [GamCare](https://www.gamcare.org.uk/)
 * [TheBigStep](https://www.the-bigstep.com/)
