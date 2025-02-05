@@ -8,7 +8,7 @@ The correlations are problematic, and arguements have been made that they point 
 
 ### Make A Difference
 * [Remind London Mayor of TFL Gambling Ads Ban](https://you.38degrees.org.uk/petitions/stop-bombarding-us-with-gambling-ads-on-public-transport)
-+ [Get More Football Clubs Onboard](https://www.change.org/p/end-gambling-advertising-and-sponsorship-in-football)
+* [Get More Football Clubs Onboard](https://www.change.org/p/end-gambling-advertising-and-sponsorship-in-football)
 
 ### Organisations
 * [Gambling With Lives](https://www.gamblingwithlives.org/)
