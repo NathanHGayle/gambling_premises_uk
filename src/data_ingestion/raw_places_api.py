@@ -7,7 +7,7 @@ import datetime
 from google.cloud import bigquery, storage
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
-from src.utils.custom_logger import setup_logger
+from utils.gc_logger import setup_logger
 
 
 def read_columns_to_dict_bq(input_logger,table, columns, where_clause=None):

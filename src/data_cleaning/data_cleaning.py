@@ -1,6 +1,6 @@
 import pandas as pd
 from google.cloud import storage
-from src.utils.custom_logger import setup_logger
+from utils.gc_logger import setup_logger
 import os
 import re
 import json
