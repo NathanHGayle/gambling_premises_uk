@@ -15,7 +15,6 @@ The correlations are problematic, and arguements have been made that they point 
 * [GamCare](https://www.gamcare.org.uk/)
 * [TheBigStep](https://www.the-bigstep.com/)
 
-
 ## Developers
 If you would like to replicate this analysis, clone the repository and see details below.
 
