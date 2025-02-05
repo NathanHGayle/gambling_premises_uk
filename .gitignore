@@ -1,7 +1,6 @@
+__pycache__/
 .idea/
-/src/__pycache__/
-/src/data_cleaning/__pycache__/
-/src/data_ingestion/__pycache__/
 .venv/
 .vscode/
+/logs/
 /logs/data_cleaning.log

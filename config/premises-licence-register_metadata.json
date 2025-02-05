@@ -1,0 +1,103 @@
+{
+    "imputation_rules": {
+      "account_number": {
+        "type": "numeric",
+        "method": "MAR",
+        "reference_column": "account_name"
+      },
+      "account_name": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "account_number"
+      },
+      "premises_activity": {
+        "type": "categorical",
+        "method": "NMAR",
+        "reference_column": null
+      },
+      "local_authority": {
+        "type": "categorical",
+        "method": "NMAR",
+        "reference_column": null
+      },
+      "address_line_1": {
+        "type": "categorical",
+        "method": "NMAR",
+        "fill_value": "Missing"
+      },
+      "address_line_2": {
+        "type": "categorical",
+        "method": "NMAR",
+        "fill_value": "Missing"
+      },
+      "city": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "account_number"
+      },
+      "postcode": {
+        "type": "categorical",
+        "method": "MAR",
+        "reference_column": "account_number"
+      }
+    },
+    "deduplication_rules": {
+      "deduplicate": true
+    },
+    "replacement_rules": {
+      "premises_activity": {
+        "Casino 2005":"casino"
+      },
+      "address_line_1": {
+        "gameszone games centre": "gamezone games centre",
+        "jackpots amusements":"jackpot amusements",
+        "warwick amusements":"warwicks amusements",
+        "harry levy amsuement contractor ltd": "arry levy amusement contractor ltd",
+        "country amusements":"county amusements",
+        "nobles amusements,":"nobles amusements",
+        "noble amusements":"nobles amusements",
+        "reels amusements":"reel amusements",
+        "r& f wilmot ltd":"r & f wilmot ltd",
+        "caesar's palace": "caesars palace",
+        "genting casinos":"genting casino",
+        "merkur cashino":"merkur casino",
+        "jennings bet,":"jennings bet",
+        "jenningsbet,":"jennings bet",
+        "merkurslots":"merkur slots",
+        "boylesport": "boylesports",
+        "stardust amusements arcade":"stardust amusements",
+        "t e cordwell (hyde)":"t e cordwell (hyde) limited",
+        "coastal amusements": "coastal amusements limited",
+        "carousel amusements" : "carousel amusements limited",
+        "blue anchor leisure": "blue anchor leisure limited",
+        "betting shop operations" : "betting shop operations limited", 
+        "betextra" : "bet extra",
+        "betszone" : "betzone",
+        "a & s leisure group limited" : "a & s leisure group",
+        "a & s leisure" : "a & s leisure group",
+        "cashino gaming limited" : "cashino gaming"
+      },
+      "address_line_2": {
+        "coral island, unit 2 promenade": "coral island, unit 2, promenade",
+        "98a -99 high street, gorleston": "98a-99 high street, gorleston",
+        "36 -42 marine terrace ": "36-42 marine terrace"
+      },
+      "city": {
+        "Bishop aukland":"Bishop auckland",
+        "Bexley heath":"Bexleyheath",
+        "Kings lynn":"King's lynn",
+        "Pportsmouth":"Portsmouth",
+        "Newcastle-upon_tyne":"Newcastle-upon-tyne",
+        "Middlesborough": "Middlesbrough",
+        "Burton-on-trent": "Burton-upon-trent",
+        "Blaydon-upon-tyne":"Blaydon-on-tyne",
+        "New quay":"Newquay",
+        "St. ives":"St ives",
+        "Morepeth":"Morpeth",
+        "Bury" : "Bury st. edmunds",
+        "Lytham" : "Lytham st. annes",
+        "Richmond":"Richmond-upon-thames"
+      }
+    }
+  }
+  

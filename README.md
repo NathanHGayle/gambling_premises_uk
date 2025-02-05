@@ -1,37 +1,60 @@
-# Gambling Premises In The UK
-Analysing the correlations between the UK gambling premises, National Socio-Economic Class and Deprivation by Constituency. 
-This code powers a publicly available Power BI dashboard serving as a tool for communities to use in communication with
-their local councils available here:
-[UK Gambling Premises, NSEC, and Deprivation Dashboard](https://app.powerbi.com/view?r=eyJrIjoiY2ZiZTU2MTUtMjk0OS00ZDJiLWEwMGItNzZiYzg3YTYzMjI5IiwidCI6IjgyMmRkYmEwLWFkNjAtNDE2Zi1iNDRlLTEwMzdlNzRkNTI5OSJ9)
+# The Link Between Gambling Premises, Socio-Economic Class, and Deprivation
+This repository maintains the data pipeline powering a publicly available Deepnote report for local communities to review with their councils.
 
+## Overview 
 
+### Findings
+The correlations are problematic, and arguements have been made that they point to a lack of power held by the UK's local councils. Share the report with friends and family, and look into active campaigns listed below.
+
+### Make A Difference
+* [Remind London Mayor of TFL Gambling Ads Ban](https://you.38degrees.org.uk/petitions/stop-bombarding-us-with-gambling-ads-on-public-transport)
++ [Get More Football Clubs Onboard](https://www.change.org/p/end-gambling-advertising-and-sponsorship-in-football)
+
+### Organisations
+* [Gamble Aware](https://www.gambleaware.org/what-we-do/what-we-fund/funded-programmes-and-commissioning/)
+* [Gambling With Lives](https://www.gamblingwithlives.org/)
+* [GamCare](https://www.gamcare.org.uk/)
+* [TheBigStep](https://www.the-bigstep.com/)
+
+## Developers
+If you would like to replicate this analysis, clone the repository and see details below.
+
+### Installation
 To install the necessary packages, you can use `pip`. Run the following command in your terminal:
 
 ```pip install -r requirements.txt```
 
-Source files:
+### Data Sources
+
+Maintained Sources:
+* [kaggle_profile](https://www.kaggle.com/nathanhg/datasets) 
+
+Original sources:
   * [premises-licence-register.csv](https://www.gamblingcommission.gov.uk/public-register/premises/download)
   * [postcodes.csv](https://www.doogal.co.uk/ElectoralConstituencies)
   * [ns_sec_2021.csv](https://commonslibrary.parliament.uk/constituency-data-educational-qualifications-2021-census/)
   * [constituencies_deprivation_dashboard.csv](https://commonslibrary.parliament.uk/constituency-data-indices-of-deprivation/)
 
+### Engineering
 
-NaN Replacement
-  1. Webscraping Local Council information to replace NaNs in ```df['Local Authority']```
-  3. Manually finding and replacing NaNs in the ```df['Postcode'] ```
-  5. Creating an 'Other' category for NaNs in ```df['Premises Activity'] ```
+<table style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <td style="padding: 10px; vertical-align: top;">
+      <strong>Tools:</strong>
+      <ul>
+        <li>Google Cloud Platform Services</li>
+        <li>Deepnote</li>
+        <li>Power BI</li>
+      </ul>
+    </td>
+    <td style="padding: 10px; vertical-align: top;">
+      <strong>Languages:</strong>
+      <ul>
+        <li>Python</li>
+        <li>SQL</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-Reshaping
-  1. String refinements and case handling
-  2. Deduplication through transformation techniques
-  3. Running Splink to identify less obvious duplicatations -- file not included in repository yet.
-
-API calls
-  1. Calling Google Maps API to surface the Business Status of Gambling Premises, e.g 'OPERATIONAL', 'PERMINANTLY CLOSED' etc. 
-  2. Adding numerical metrics for Indicies of Deprivation 2019 and National Soci-Economic Class for correlation analysis.
-
-Analysis
-  1. The Spearman correlation method was selected to handle anomalies and thus better represent the raw scatter plot visualisations in the Power BI dashboard.
-  2. The Power BI dashboard product aims to bring awareness to these correlations and show you all the gamling premises locations within your constituency. 
-  
-  
+![Data Pipeline](https://github.com/NathanHGayle/gambling_premises_uk/blob/master/diagrams/pipeline_diagram.png)

@@ -1,7 +1,7 @@
 import kagglehub
 from pathlib import Path
 from google.cloud.storage import Client, transfer_manager
-from src.utils.custom_logger import setup_logger
+from utils.gc_logger import setup_logger
 
 def download_kaggle(input_logger,data_url="nathanhg/uk-gam-datasets"):
     input_logger.info("----------- Downloading uk-gam-datasets folder from KaggleHub ---------")

@@ -1,6 +1,6 @@
 import pandas as pd
 from google.cloud import storage
-from src.utils.custom_logger import setup_logger
+from utils.gc_logger import setup_logger
 import os
 import re
 import json
@@ -357,10 +357,10 @@ def main():
 
     # List of files
     files = [
-        {"name": "2024_premises-licence-register", "extension": ".csv"} #,
-        # {"name": "Data constituencies_deprivation-dashboard", "extension": ".csv"},
-        # {"name": "NS-SEC_2021", "extension": ".csv"},
-        # {"name": "postcodes", "extension": ".csv"}
+        {"name": "premises-licence-register", "extension": ".csv"},
+        {"name": "Data constituencies_deprivation-dashboard", "extension": ".csv"},
+        {"name": "NS-SEC_2021", "extension": ".csv"},
+        {"name": "postcodes", "extension": ".csv"}
     ]
 
     # Loop through files to clean and accumulate audit data
