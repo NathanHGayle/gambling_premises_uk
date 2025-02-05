@@ -58,4 +58,4 @@ Original sources:
   </tr>
 </table>
 
-![Data Pipeline](diagrams\pipeline_diagram.png)
+![Data Pipeline](https://github.com/NathanHGayle/gambling_premises_uk/blob/master/diagrams/pipeline_diagram.png)
