@@ -7,7 +7,7 @@ import datetime
 from google.cloud import bigquery, storage
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
-from utils.gc_logger import setup_logger
+from src.utils.gc_logger import setup_cloud_logger
 
 
 def read_columns_to_dict_bq(input_logger,table, columns, where_clause=None):
@@ -198,7 +198,7 @@ def upload_df_to_gcs(input_logger,bucket_name,directory,df,df_name,extension):
 
 
 def main():
-    logger = setup_logger(log_file_name="data_ingestion.log")
+    logger = setup_cloud_logger(log_file_name="data_ingestion.log")
     columns = ['full_address','premisesid'] 
 
     table = "gambling-premises-data.silver_ew.dim_premises"

@@ -1,6 +1,6 @@
 import pandas as pd
 from google.cloud import storage
-from utils.gc_logger import setup_logger
+from src.utils.gc_logger import setup_cloud_logger
 import os
 import re
 import json
@@ -96,12 +96,8 @@ def header_standardization(input_logger, df, df_name):
     Returns:
         DataFrame: The DataFrame with standardized column names.
     """
-    input_logger.info(f"----------- Standardizing {df_name} headers ---------")
+    input_logger.info("----------- Standardizing {} headers ---------".format(df_name))
     column_names = df.columns
-
-    # Define banned prefixes
-    banned_prefixes = ["_TABLE_", "_FILE_", "_PARTITION", "_ROW_TIMESTAMP", "__ROOT__", "_COLIDENTIFIER"]
-    banned_prefixes = [prefix.lower() for prefix in banned_prefixes]
 
     # Initialize storage for validated column names and duplicates
     validated = []
@@ -348,7 +344,7 @@ def upload_df_to_gcs(input_logger, bucket_name,directory,df,df_name,extension):
 
 def main():
     # Setup
-    logger = setup_logger(log_file_name="data_cleaning.log")   
+    logger = setup_cloud_logger(log_file_name="data_cleaning.log")   
     print("Input bucketname:")
     bucketname = input()
 
