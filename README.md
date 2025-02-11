@@ -1,5 +1,5 @@
 # The Link Between Gambling Premises, Socio-Economic Class, and Deprivation
-This repository maintains the data pipeline powering a publicly available Deepnote report for local communities to review with their councils.
+This repository maintains the data pipeline powering a [publicly available report](https://deepnote.com/app/presentationlayer/The-Link-Between-UK-Gambling-Premises-Socio-Economic-Class-and-Deprivation-f2e49622-d91e-49db-ba92-75390c6cf90f?utm_source=app-settings&utm_medium=product-shared-content&utm_campaign=data-app&utm_content=f2e49622-d91e-49db-ba92-75390c6cf90f) for local communities to review with their councils.
 
 ## Overview 
 
