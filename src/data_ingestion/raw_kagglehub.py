@@ -1,7 +1,7 @@
 import kagglehub
 from pathlib import Path
 from google.cloud.storage import Client, transfer_manager
-from utils.gc_logger import setup_logger
+from src.utils.gc_logger import setup_cloud_logger
 
 def download_kaggle(input_logger,data_url="nathanhg/uk-gam-datasets"):
     input_logger.info("----------- Downloading uk-gam-datasets folder from KaggleHub ---------")
@@ -40,7 +40,7 @@ def upload_many_blobs_with_transfer_manager(input_logger,
 
 def main():
     # Logging
-    logger = setup_logger(log_file_name="data_ingestion.log")
+    logger = setup_cloud_logger(log_file_name="data_ingestion.log")
 
     # Kaggle API download
     directory_path = Path(download_kaggle(logger))  
