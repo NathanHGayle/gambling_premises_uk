@@ -1,6 +1,6 @@
 # Dataform Branch - Data Transformation
 
-This branch contains the data transformation logic for the project, [return to main branch here](https://github.com/NathanHGayle/gambling_premises_uk/tree/master_), implemented using **Dataform**. It is responsible for creating, testing, and maintaining the SQL queries that define intermediate and final tables in our data pipeline.
+This branch contains the data transformation logic for the project, [return to main branch here](https://github.com/NathanHGayle/gambling_premises_uk/tree/master?tab=readme-ov-file), implemented using **Dataform**. It is responsible for creating, testing, and maintaining the SQL queries that define intermediate and final tables in our data pipeline.
 
 ## Project Structure
 
