@@ -7,15 +7,16 @@ import datetime
 from google.cloud import bigquery, storage
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
-from src.utils.gc_logger import setup_cloud_logger
+# from src.utils.gc_logger import setup_cloud_logger
+import logging
 
+# setup_cloud_logger(log_file_name="data_ingestion.log")
 
-def read_columns_to_dict_bq(input_logger,table, columns, where_clause=None):
+def read_columns_to_dict_bq(table, columns):
     """
     Reads specified columns from a BigQuery table and returns the data as a list of dictionaries.
 
     Params:
-        input_logger (logging.Logger): Logger instance for logging information.
         table (str): Full name of the BigQuery table in the format `project.dataset.table`.
         columns (list): List of column names to retrieve.
         where_clause (str, optional): Optional SQL WHERE clause to filter results.
@@ -23,7 +24,7 @@ def read_columns_to_dict_bq(input_logger,table, columns, where_clause=None):
     Returns:
         list: A list of dictionaries where each dictionary represents a row from the table.
     """
-    input_logger.info("----------- Reading BigQuery Table Columns to Dict ---------")
+    logging.info("----------- Reading BigQuery Table Columns to Dict ---------")
 
     # Construct a BigQuery client object
     client = bigquery.Client()
@@ -38,39 +39,39 @@ def read_columns_to_dict_bq(input_logger,table, columns, where_clause=None):
 
     # Construct the base query
     query = f"""
-        SELECT DISTINCT {column_string}
-        FROM {table_with_backticks}
-    """
+        SELECT DISTINCT dp.full_address, dp.premisesid
+        FROM {table_with_backticks} dp
+        LEFT JOIN `silver_ew.dim_gbusiness_status` USING(premisesid)
+        WHERE g_place_id IS NULL
+        LIMIT 1
+        """
 
-    # Append WHERE clause if provided
-    if where_clause:
-        query += f" WHERE {where_clause}"
-
-    input_logger.info(f"Executing Query: {query}")
+    logging.info(f"Executing Query: {query}")
 
     try:
         # Execute the query
         query_job = client.query(query)
         results = query_job.result()
+        logging.info(f"Table returned")
         return [dict(row) for row in results]
+    
     except Exception as e:
-        input_logger.error(f"Query failed: {e}")
+        logging.error(f"Query failed: {e}")
         raise
 
 
-def places_api_call(full_address, input_logger):
+def places_api_call(full_address):
     """
     Makes an API call to the Google Places API to retrieve place information for a given address.
 
     Params:
-        input_logger (logging.Logger): Logger instance for logging information.
         full_address (str): The full address to query in the Places API.
 
     Returns:
         dict: The API response containing place information, or an empty "places" list in case of failure.
 
     """
-    # input_logger.info("----------- Calling Place API (New) ---------")
+    # logging.info("----------- Calling Place API (New) ---------")
     url = "https://places.googleapis.com/v1/places:searchText"
 
     API_KEY = keyring.get_password("uk_gam_gp", "PLACES_API") #USE ENVIRONMENT VARIABLE
@@ -88,19 +89,18 @@ def places_api_call(full_address, input_logger):
 
     # Ensure the response status is OK and return the JSON content
     if response.status_code == 200:
-        input_logger.info(f"STATUS: {response.status_code}")
+        logging.info(f"STATUS: {response.status_code}")
         return response.json()  # Convert the response to a Python dictionary
     else:
-        input_logger.error(f"STATUS{response.status_code}")
+        logging.error(f"STATUS{response.status_code}")
         return {"places": []}  # Return an empty list in case of error or no data
     
 
-def add_places_to_dict_parallel(input_logger, rows, key_column, value_column, max_workers=3):
+def add_places_to_dict_parallel(rows, key_column, value_column, max_workers=3):
     """
     Retrieves Google Places API information for a list of rows in parallel using threading.
 
     Params:
-        input_logger (logging.Logger): Logger instance for logging information.
         rows (list): A list of dictionaries where each dictionary contains address and premises ID information.
         key_column (str): The key in the dictionaries representing the full address.
         value_column (str): The key in the dictionaries representing the premises ID.
@@ -109,10 +109,10 @@ def add_places_to_dict_parallel(input_logger, rows, key_column, value_column, ma
     Returns:
         pd.DataFrame: A pandas DataFrame containing the enriched data with Google Places API results.
     """
-    input_logger.info(f"----------- Parallelism process returning Place API info for {key_column}s ---------")
+    logging.info(f"----------- Parallelism process returning Place API info for {key_column}s ---------")
 
     if not rows:
-        input_logger.error("Input 'rows' is empty. No processing will be done.")
+        logging.error("Input 'rows' is empty. No processing will be done.")
         return pd.DataFrame()
     
     result = []
@@ -122,8 +122,9 @@ def add_places_to_dict_parallel(input_logger, rows, key_column, value_column, ma
         address = row[key_column]
         premisesid = row[value_column]
         try:
-            places_data = places_api_call(address, input_logger)
+            places_data = places_api_call(address)
             places = places_data.get("places", [])
+            print(places)
 
             if places:
                 with lock:
@@ -137,38 +138,37 @@ def add_places_to_dict_parallel(input_logger, rows, key_column, value_column, ma
                         "api_call_date": pd.to_datetime(datetime.datetime.now())
                     })
                 if len(result) % 100 == 0:
-                    input_logger.info(f"Processed {len(result)} addresses so far.")
+                    logging.info(f"Processed {len(result)} addresses so far.")
             else:
-                input_logger.warning(f"No place info for {address}")
+                logging.warning(f"No place info for {address}")
         except Exception as e:
             if "429" in str(e):
-                input_logger.error(f"Rate limit hit for {address}. Consider increasing delay or reducing workers.")
+                logging.error(f"Rate limit hit for {address}. Consider increasing delay or reducing workers.")
             else:
-                input_logger.error(f"Error processing {address}: {e}")
+                logging.error(f"Error processing {address}: {e}")
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         executor.map(process_row, rows)
     if not result:
-            input_logger.error(f"Result list is empty - no places_info")
+            logging.error(f"Result list is empty - no places_info")
 
     if result:
         df = pd.DataFrame(result)
         df.to_csv("local_copy_places_api_results.csv")
-        input_logger.info(f"DataFrame created with {len(df)} rows.")
-        input_logger.info("Parallel processing of API calls completed.")
+        logging.info(f"DataFrame created with {len(df)} rows.")
+        logging.info("Parallel processing of API calls completed.")
         return df
     else:
-        input_logger.error("Result list is empty. No data added to DataFrame.")
-        input_logger.info("Parallel processing of API calls completed.")
+        logging.error("Result list is empty. No data added to DataFrame.")
+        logging.info("Parallel processing of API calls completed.")
         return None
     
 
-def upload_df_to_gcs(input_logger,bucket_name,directory,df,df_name,extension):
+def upload_df_to_gcs(bucket_name,directory,df,df_name,extension):
     """
     Uploads a pandas DataFrame as a CSV file to a specified Google Cloud Storage bucket.
 
     Params:
-        input_logger (logging.Logger): Logger instance for logging information.
         bucket_name (str): The name of the GCS bucket to upload the file to.
         directory (str): The directory path in the GCS bucket to store the file.
         df (pd.DataFrame): The DataFrame to upload.
@@ -178,42 +178,43 @@ def upload_df_to_gcs(input_logger,bucket_name,directory,df,df_name,extension):
     Returns:
         None: The function does not return a value but logs the upload status.
     """
-    input_logger.info(f"----------- Writing file to BUCKETNAME_REMOVED / {directory} / {df_name}{extension} ---------")
+    logging.info(f"----------- Writing file to BUCKETNAME_REMOVED / {directory} / {df_name}{extension} ---------")
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     gcs_path = os.path.join(directory,f"{df_name}{extension}").replace("\\", "/")
 
     if df is None:
-        input_logger.error(f"{df_name} dataFrame is None")
+        logging.error(f"{df_name} dataFrame is None")
         return None 
     try:
         # Create a blob in GCS and upload the JSON data
         blob = bucket.blob(gcs_path)
         csv_data = df.to_csv(index=False) 
         blob.upload_from_string(csv_data, content_type="text/csv")
-        input_logger.info("File has been uploaded to GCS")
+        logging.info("File has been uploaded to GCS")
         return df
     except Exception as e:
-            input_logger.error(f"File was not saved to Google Cloud Storage: {e}") 
+            logging.error(f"File was not saved to Google Cloud Storage: {e}") 
 
 
 def main():
-    logger = setup_cloud_logger(log_file_name="data_ingestion.log")
     columns = ['full_address','premisesid'] 
 
     table = "gambling-premises-data.silver_ew.dim_premises"
 
-    address_premid = read_columns_to_dict_bq(logger,table,columns)
+    address_premid = read_columns_to_dict_bq(table,columns)
 
-    df = add_places_to_dict_parallel(logger,address_premid,columns[0],columns[1])
+    print(address_premid)
+
+    df = add_places_to_dict_parallel(address_premid,columns[0],columns[1])
     
     print("Input bucketname: ")
     bucket_name = input() #USE ENVIRONMENT VARIABLE
     dir = "RAW"
-    df_name = "places_api_results"
+    df_name = "test_places_api_results"
     extension = ".csv"
 
-    df = upload_df_to_gcs(logger,bucket_name,dir,df,df_name,extension)
+    df = upload_df_to_gcs(bucket_name,dir,df,df_name,extension)
 
 if __name__ == "__main__":
         main()
