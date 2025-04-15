@@ -2,7 +2,7 @@ ydata-profiling==4.12.1
 attr==0.3.2
 colorama==0.4.6
 ConfigParser==7.1.0
-cryptography==44.0.0
+cryptography==44.0.1
 docutils==0.21.2
 filelock==3.16.1
 HTMLParser==0.0.2
