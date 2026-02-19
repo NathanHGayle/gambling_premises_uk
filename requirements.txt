@@ -2,7 +2,6 @@ ydata-profiling==4.12.1
 attr==0.3.2
 colorama==0.4.6
 ConfigParser==7.1.0
-cryptography==44.0.1
 docutils==0.21.2
 HTMLParser==0.0.2
 ipython==8.12.3
@@ -11,7 +10,6 @@ jnius==1.1.0
 kagglehub==0.3.6
 keyring==25.6.0
 pandas==2.2.3
-Pillow==11.1.0
 pyOpenSSL==25.0.0
 redis==5.2.1
 selenium==4.27.1
